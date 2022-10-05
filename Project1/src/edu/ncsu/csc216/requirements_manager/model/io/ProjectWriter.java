@@ -6,16 +6,24 @@ package edu.ncsu.csc216.requirements_manager.model.io;
 import edu.ncsu.csc216.requirements_manager.model.manager.Project;
 
 /**
+ * Writes given projects to a new file specified by a file name.
+ * 
  * @author yujim
  *
  */
 public class ProjectWriter {
-	public ProjectWriter() {
-		//add code here
-	}
-	
+	/**
+	 * Receives a String with the file name to write to and a Project to write to
+	 * file. If there are any errors or exceptions, an IllegalArgumentException is
+	 * thrown with the message “Unable to save file.”
+	 * 
+	 * @param filename name of the file to write to
+	 * @param project  the project to write to the file
+	 * @throws IllegalArgumentException if there are any errors or exception in
+	 *                                  writing to and saving the file
+	 */
 	public static void writeProjectToFile(String filename, Project project) {
-		//add code here
+		// add code here
 	}
 
 }
