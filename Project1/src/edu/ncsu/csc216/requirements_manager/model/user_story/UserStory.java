@@ -76,7 +76,10 @@ public class UserStory {
 	 * 
 	 */
 	public UserStory(String title, String user, String action, String value) {
-		// add code here
+		this.title = title;
+		this.user = user;
+		this.action = action;
+		this.value = value;
 	}
 
 	/**
@@ -90,6 +93,7 @@ public class UserStory {
 	 * with any of the parameters, an IllegalArgumentException should be thrown.
 	 * 
 	 * @param storyId         story's id
+	 * @param state           story's state
 	 * @param title           story's title
 	 * @param user            story's user information
 	 * @param action          story's action information
@@ -101,9 +105,17 @@ public class UserStory {
 	 *                                  parameters
 	 * 
 	 */
-	public UserStory(int storyId, String title, String user, String action, String value, String priority,
+	public UserStory(int storyId, String state, String title, String user, String action, String value, String priority,
 			String developerId, String rejectionReason) {
-		// add code here
+		this.storyId = storyId;
+		this.state = state;
+		this.title = title;
+		this.user = user;
+		this.action = action;
+		this.value = value;
+		this.priority = priority;
+		this.developerId = developerId;
+		this.rejectionReason = rejectionReason;
 	}
 
 	/**
