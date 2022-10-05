@@ -31,9 +31,8 @@ public class Project {
 	 * @throws IllegalArgumentException if projectName is null or an empty string
 	 * 
 	 */
-	public Project(String projectName, ArrayList<UserStory> userStories) {
+	public Project(String projectName) {
 		this.projectName = projectName;
-		this.userStories = userStories;
 	}
 
 	/**
