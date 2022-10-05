@@ -44,11 +44,13 @@ public class Command {
 	 *                                  commandInformation
 	 */
 	public Command(CommandValue command, String commandInformation) {
-		// add code here;
+		this.command = command;
+		this.commandInformation = commandInformation;
 	}
 
 	/**
 	 * returns the command value
+	 * 
 	 * @return command the command value
 	 */
 	public CommandValue getCommand() {
@@ -57,6 +59,7 @@ public class Command {
 
 	/**
 	 * returns the command value's information
+	 * 
 	 * @return commandInformation the command value's information
 	 */
 	public String getCommandInformation() {

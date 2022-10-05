@@ -31,8 +31,9 @@ public class Project {
 	 * @throws IllegalArgumentException if projectName is null or an empty string
 	 * 
 	 */
-	public Project(String projectName) {
-		// add code here
+	public Project(String projectName, ArrayList<UserStory> userStories) {
+		this.projectName = projectName;
+		this.userStories = userStories;
 	}
 
 	/**
@@ -51,6 +52,24 @@ public class Project {
 	 */
 	private void setProjectName(String projectName) {
 		this.projectName = projectName;
+	}
+
+	/**
+	 * Returns the list of user stories
+	 * 
+	 * @return userStories the list of userStories
+	 */
+	public ArrayList<UserStory> getUserStories() {
+		return userStories;
+	}
+
+	/**
+	 * Sets the list of UserStories
+	 * 
+	 * @param userStories the userStories to set
+	 */
+	public void setUserStories(ArrayList<UserStory> userStories) {
+		this.userStories = userStories;
 	}
 
 	/**
@@ -93,15 +112,6 @@ public class Project {
 	}
 
 	/**
-	 * Returns the list of user stories
-	 * 
-	 * @return userStories the list of userStories
-	 */
-	public ArrayList<UserStory> getUserStories() {
-		return userStories;
-	}
-
-	/**
 	 * Returns the UserStory in the list with the given id. If there is no UserStory
 	 * with that id, the method returns null.
 	 * 
@@ -112,9 +122,10 @@ public class Project {
 	public UserStory getUserStoryById(int id) {
 		return null;
 	}
-	
-	/** 
+
+	/**
 	 * Removes the UserStory with the given id from the list.
+	 * 
 	 * @param id given id to match with the UserStory in the list
 	 */
 	public void deleteUserStoryById(int id) {
@@ -131,6 +142,5 @@ public class Project {
 	public void executeCommand(int id, Command c) {
 		// add code here
 	}
-
 
 }
