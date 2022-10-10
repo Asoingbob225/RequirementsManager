@@ -32,6 +32,12 @@ public class Project {
 	 * 
 	 */
 	public Project(String projectName) {
+		
+		if (projectName == null || projectName.length() == 0) {
+			throw new IllegalArgumentException("Invalid project name");
+		}
+		
+		userStories = new ArrayList<UserStory>();
 		this.projectName = projectName;
 	}
 
@@ -45,15 +51,6 @@ public class Project {
 	}
 
 	/**
-	 * Sets the project name
-	 * 
-	 * @param projectName the project name
-	 */
-	private void setProjectName(String projectName) {
-		this.projectName = projectName;
-	}
-
-	/**
 	 * Returns the list of user stories
 	 * 
 	 * @return userStories the list of userStories
@@ -62,14 +59,6 @@ public class Project {
 		return userStories;
 	}
 
-	/**
-	 * Sets the list of UserStories
-	 * 
-	 * @param userStories the userStories to set
-	 */
-	public void setUserStories(ArrayList<UserStory> userStories) {
-		this.userStories = userStories;
-	}
 
 	/**
 	 * Sets the counter for the UserStory instances to the value of the maximum id
@@ -77,6 +66,13 @@ public class Project {
 	 */
 	public void setUserStoryId() {
 		// add code here
+		int maxId = 0;
+		for (int i = 1; i < userStories.size(); i++) {
+			if (userStories.get(i).getId() > userStories.get(i - 1).getId()) {
+				maxId = userStories.get(i).getId();
+			}
+		}
+		UserStory.setCounter(maxId);
 	}
 
 	/**
@@ -89,11 +85,35 @@ public class Project {
 	 * @param action story's action information
 	 * @param value  story's value information
 	 * @return id the id of the newly added user story
-	 * @throws IllegalArgumentExceptino if a story already exists in the list with
+	 * @throws IllegalArgumentException if a story already exists in the list with
 	 *                                  the given id
 	 */
 	public int addUserStory(String title, String user, String action, String value) {
-		return 0;
+		UserStory u = new UserStory(title, user, action, value);
+		
+		for (int i = 0; i < userStories.size(); i++) {
+			if (u.getId() == userStories.get(i).getId()) {
+				throw new IllegalArgumentException("Story with id already exists");
+			}
+		}
+		
+		if (userStories.size() == 0) {
+			userStories.add(u);
+		}
+		else if (u.getId() < userStories.get(0).getId()) {
+			userStories.add(0, u);
+		}
+		else if (u.getId() > userStories.get(userStories.size() - 1).getId()) {
+			userStories.add(u);
+		}
+		else {
+			for (int i = 1; i < userStories.size() - 1; i++) {
+				if (u.getId() > userStories.get(i - 1).getId() && u.getId() < userStories.get(i + 1).getId()) {
+					userStories.add(i, u);
+				}
+			}
+		}
+		return u.getId();
 	}
 
 	/**
@@ -107,7 +127,13 @@ public class Project {
 	 *                                  the given id
 	 */
 	public void addUserStory(UserStory story) {
-		// add code here
+		for (int i = 0; i < userStories.size(); i++) {
+			if (story.getId() == userStories.get(i).getId()) {
+				throw new IllegalArgumentException("Story with id already exists");
+			}
+		}
+		
+		userStories.add(story);
 	}
 
 	/**
@@ -119,6 +145,11 @@ public class Project {
 	 *         UserStories
 	 */
 	public UserStory getUserStoryById(int id) {
+		for (int i = 0; i < userStories.size(); i++) {
+			if (id == userStories.get(i).getId()) {
+				return userStories.get(i);
+			}
+		}
 		return null;
 	}
 
@@ -129,6 +160,11 @@ public class Project {
 	 */
 	public void deleteUserStoryById(int id) {
 		// add code here
+		for (int i = 0; i < userStories.size(); i++) {
+			if (id == userStories.get(i).getId()) {
+				userStories.remove(userStories.get(i));
+			}
+		}
 	}
 
 	/**
@@ -140,6 +176,11 @@ public class Project {
 	 */
 	public void executeCommand(int id, Command c) {
 		// add code here
+		for (int i = 0; i < userStories.size(); i++) {
+			if (id == userStories.get(i).getId()) {
+				userStories.get(i).update(c);
+			}
+		}
 	}
 
 }

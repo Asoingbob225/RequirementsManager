@@ -33,8 +33,8 @@ public class Command {
 	 * commandInformation, and when there is a CommandValue of REVIEW, CONFIRM,
 	 * REOPEN, or RESUBMIT and a non-null commandInformation
 	 * 
-	 * @param command
-	 * @param commandInformation
+	 * @param command the command value
+	 * @param commandInformation additional information on the command
 	 * @throws IllegalArgumentException when there is a null CommandValue parameter,
 	 *                                  when there is a CommandValue of BACKLOG,
 	 *                                  ASSIGN, or REJECT with a null or empty
@@ -44,6 +44,16 @@ public class Command {
 	 *                                  commandInformation
 	 */
 	public Command(CommandValue command, String commandInformation) {
+		if (command == null) {
+			throw new IllegalArgumentException("Invalid command");
+		} else if ((command == CommandValue.BACKLOG || command == CommandValue.ASSIGN || command == CommandValue.REJECT)
+				&& (commandInformation == null || commandInformation.length() == 0)) {
+			throw new IllegalArgumentException("Invalid command information");
+		} else if ((command == CommandValue.REVIEW || command == CommandValue.CONFIRM || command == CommandValue.REOPEN
+				|| command == CommandValue.RESUBMIT) && commandInformation != null) {
+			throw new IllegalArgumentException("Invalid command information");
+		}
+
 		this.command = command;
 		this.commandInformation = commandInformation;
 	}
@@ -65,4 +75,5 @@ public class Command {
 	public String getCommandInformation() {
 		return commandInformation;
 	}
+
 }

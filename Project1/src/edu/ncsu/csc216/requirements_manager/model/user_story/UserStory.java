@@ -34,12 +34,12 @@ public class UserStory {
 	/** A constant string for the rejection reason of “Duplicate”. **/
 	public static final String DUPLICATE_REJECTION = "Duplicate";
 	/** A constant string for the rejection reason of “Inappropriate”. **/
-	public static final String INNAPROPRIATE_REJECTION = "Inapropriate";
+	public static final String INAPPROPRIATE_REJECTION = "Inapropriate";
 	/** A constant string for the rejection reason of “Infeasible”. **/
 	public static final String INFEASIBLE_REJECTION = "Infeasible";
 
 	/** static field for counter used to create storyId **/
-	private static final int COUNTER = 0;
+	private static int counter = 0;
 	/** Unique id for an user story */
 	private int storyId;
 	/** Current state for the user story of type UserStoryState */
@@ -59,38 +59,55 @@ public class UserStory {
 	/** The user story’s rejection reason **/
 	private String rejectionReason;
 
+
+	public final UserStoryState submittedState = new SubmittedState();
+
+	public final UserStoryState backlogState = new BacklogState();
+
+	public final UserStoryState workingState = new WorkingState();
+
+	public final UserStoryState verifyingState = new VerifyingState();
+
+	public final UserStoryState completedState = new CompletedState();
+
+	public final UserStoryState rejectedState = new RejectedState();
+	
+	public UserStoryState currentState = submittedState;
+
+
 	/**
-	 * Constructs a UserStory from the provided parameters. If any of the parameters
-	 * are null or empty strings, then an IllegalArgumentException is thrown. The
-	 * storyId field is set to the value stored in UserStory.counter. The counter is
-	 * then incremented using UserStory.incrementCounter(). A new UserStory starts
-	 * in the submitted state. The priority, developerId, and rejectionReason are
-	 * all null.
+	 * Constructs a UserStory from the provided parameters. The storyId field is set
+	 * to the value stored in UserStory.counter. The counter is then incremented
+	 * using UserStory.incrementCounter(). A new UserStory starts in the submitted
+	 * state. The priority, developerId, and rejectionReason are all null.
 	 * 
 	 * @param title  title of the story
 	 * @param user   user information for the story
 	 * @param action action information for the story
 	 * @param value  value information for the story
-	 * @throws IllegalArgumentException if any of the parameters are null or empty
-	 *                                  strings.
 	 * 
 	 */
 	public UserStory(String title, String user, String action, String value) {
-		this.title = title;
-		this.user = user;
-		this.action = action;
-		this.value = value;
+
+		storyId = counter;
+		incrementCounter();
+
+		setTitle(title);
+		setUser(user);
+		setAction(action);
+		setValue(value);
+
+		setState(currentState.getStateName());
+
 	}
 
 	/**
 	 * The fields of the UserStory are set to the parameter values after error
-	 * checking. This constructor should be used in the ProjectReader class. You may
-	 * find it useful to create private setter methods to set the fields for
-	 * UserStory. This constructor checks the constraints on UserStory objects
-	 * listed in [UC2]. Additionally, if the incoming id is greater than the current
-	 * value in UserStory.counter, then the UserStory.counter should be updated to
-	 * the id + 1 using the setCounter(id) method. Note that if there is an issue
-	 * with any of the parameters, an IllegalArgumentException should be thrown.
+	 * checking. This constructor should be used in the ProjectReader class. This
+	 * constructor checks the constraints on UserStory objects listed in [UC2].
+	 * Additionally, if the incoming id is greater than the current value in
+	 * UserStory.counter, then the UserStory.counter should be updated to the id + 1
+	 * using the setCounter(id) method.
 	 * 
 	 * @param storyId         story's id
 	 * @param state           story's state
@@ -101,21 +118,25 @@ public class UserStory {
 	 * @param priority        story's priority level
 	 * @param developerId     story's assigned developer
 	 * @param rejectionReason story's rejection reason
-	 * @throws IllegalArgumentException when there is an issue with any of the
-	 *                                  parameters
 	 * 
 	 */
 	public UserStory(int storyId, String state, String title, String user, String action, String value, String priority,
 			String developerId, String rejectionReason) {
-		this.storyId = storyId;
-		this.state = state;
-		this.title = title;
-		this.user = user;
-		this.action = action;
-		this.value = value;
-		this.priority = priority;
-		this.developerId = developerId;
-		this.rejectionReason = rejectionReason;
+
+		if (storyId > counter) {
+			setCounter(storyId);
+		}
+
+		setId(storyId);
+		setState(state);
+		setTitle(title);
+		setUser(user);
+		setAction(action);
+		setValue(value);
+		setPriority(priority);
+		setDeveloperId(developerId);
+		setRejectionReason(rejectionReason);
+
 	}
 
 	/**
@@ -131,8 +152,12 @@ public class UserStory {
 	 * Sets the story's id.
 	 * 
 	 * @param storyId story's id.
+	 * @throws IllegalArgumentException if id is less than 0
 	 */
 	public void setId(int storyId) {
+		if (storyId < 0) {
+			throw new IllegalArgumentException("Invalid id");
+		}
 		this.storyId = storyId;
 	}
 
@@ -149,8 +174,14 @@ public class UserStory {
 	 * Sets the story's state.
 	 * 
 	 * @param state story's state.
+	 * @throws IllegalArgumentException if state is null or length 0
 	 */
 	public void setState(String state) {
+		if (state != submittedState.getStateName() && state != backlogState.getStateName()
+				&& state != workingState.getStateName() && state != verifyingState.getStateName()
+				&& state != completedState.getStateName() && state != rejectedState.getStateName()) {
+			throw new IllegalArgumentException("Invalid state");
+		}
 		this.state = state;
 	}
 
@@ -167,8 +198,12 @@ public class UserStory {
 	 * Sets the story's title.
 	 * 
 	 * @param title story's title.
+	 * @throws IllegalArgumentException if title is null or length 0
 	 */
 	public void setTitle(String title) {
+		if (title == null || title.length() == 0) {
+			throw new IllegalArgumentException("Invalid title");
+		}
 		this.title = title;
 	}
 
@@ -185,8 +220,12 @@ public class UserStory {
 	 * Sets the story's user information.
 	 * 
 	 * @param user story's user information.
+	 * @throws IllegalArgumentException if user is null or length 0
 	 */
 	public void setUser(String user) {
+		if (user == null || user.length() == 0) {
+			throw new IllegalArgumentException("Invalid user");
+		}
 		this.user = user;
 	}
 
@@ -203,8 +242,12 @@ public class UserStory {
 	 * Sets the story's action information.
 	 * 
 	 * @param action story's action information.
+	 * @throws IllegalArgumentException if action is null or length 0
 	 */
 	public void setAction(String action) {
+		if (action == null || action.length() == 0) {
+			throw new IllegalArgumentException("Invalid action");
+		}
 		this.action = action;
 	}
 
@@ -221,8 +264,12 @@ public class UserStory {
 	 * Sets the story's value information.
 	 * 
 	 * @param value story's value information.
+	 * @throws IllegalArgumentException if value if null or length 0
 	 */
 	public void setValue(String value) {
+		if (value == null || value.length() == 0) {
+			throw new IllegalArgumentException("Invalid value");
+		}
 		this.value = value;
 	}
 
@@ -230,6 +277,7 @@ public class UserStory {
 	 * Return's the story's priority level.
 	 * 
 	 * @return story's priority level
+	 * 
 	 */
 	public String getPriority() {
 		return priority;
@@ -238,9 +286,13 @@ public class UserStory {
 	/**
 	 * Sets the story's priority level.
 	 * 
-	 * @param priority story's level.
+	 * @param priority story's priority level.
+	 * @throws IllegalArgumentException if priority is not low, medium, or high
 	 */
 	public void setPriority(String priority) {
+		if (priority != HIGH_PRIORITY && priority != MEDIUM_PRIORITY && priority != LOW_PRIORITY) {
+			throw new IllegalArgumentException("Invalid priority");
+		}
 		this.priority = priority;
 	}
 
@@ -257,8 +309,12 @@ public class UserStory {
 	 * Sets the story's developer's id.
 	 * 
 	 * @param developerId story's developer's id.
+	 * @throws IllegalArgumentException if developer id is null of length 0
 	 */
 	public void setDeveloperId(String developerId) {
+		if (developerId == null || developerId.length() == 0) {
+			throw new IllegalArgumentException("Invalid developer id");
+		}
 		this.developerId = developerId;
 	}
 
@@ -275,8 +331,14 @@ public class UserStory {
 	 * Sets the story's rejection reason.
 	 * 
 	 * @param rejectionReason story's rejection reason.
+	 * @throws IllegalArgumentException if rejection reason isn't one of duplicate,
+	 *                                  inappropriate, or infeasible
 	 */
 	public void setRejectionReason(String rejectionReason) {
+		if (rejectionReason != DUPLICATE_REJECTION && rejectionReason != INAPPROPRIATE_REJECTION
+				&& rejectionReason != INFEASIBLE_REJECTION) {
+			throw new IllegalArgumentException("Invalid rejection reason");
+		}
 		this.rejectionReason = rejectionReason;
 	}
 
@@ -284,7 +346,7 @@ public class UserStory {
 	 * Increments the counter field used to assign the storyId
 	 */
 	public static void incrementCounter() {
-		// add code here
+		counter++;
 	}
 
 	/**
@@ -292,8 +354,8 @@ public class UserStory {
 	 * 
 	 * @param counter value used to assign a storyId
 	 */
-	public static void setCounter(int counter) {
-		// add code here
+	public static void setCounter(int id) {
+		counter = id + 1;
 	}
 
 	/**
@@ -303,7 +365,9 @@ public class UserStory {
 	 * @return String representation of UserStory
 	 */
 	public String toString() {
-		return null;
+		return "* " + storyId + "," + state + "," + title + "," + priority + "," + developerId + "," + rejectionReason
+				+ "\n" + "- " + user + "\n" + "- " + action + "\n" + "- " + value;
+
 	}
 
 	/**
@@ -319,6 +383,19 @@ public class UserStory {
 	 */
 	public void update(Command command) {
 		// add code here
+		if (currentState == submittedState) {
+			submittedState.updateState(command);
+		} else if (currentState == backlogState) {
+			backlogState.updateState(command);
+		} else if (currentState == workingState) {
+			workingState.updateState(command);
+		} else if (currentState == verifyingState) {
+			verifyingState.updateState(command);
+		} else if (currentState == completedState) {
+			completedState.updateState(command);
+		} else if (currentState == rejectedState) {
+			rejectedState.updateState(command);
+		}
 	}
 
 	/**
@@ -358,14 +435,7 @@ public class UserStory {
 	 * @author yujim
 	 *
 	 */
-	private class SubmittedState implements UserStoryState {
-
-		/**
-		 * Constructs the submitted state for a story.
-		 */
-		private SubmittedState() {
-			// add code here
-		}
+	private final class SubmittedState implements UserStoryState {
 
 		/**
 		 * Update the UserStory based on the given Command. An
@@ -379,6 +449,18 @@ public class UserStory {
 		 */
 		public void updateState(Command command) {
 			// add code here
+			if (command.getCommand() == Command.CommandValue.BACKLOG) {
+				setPriority(command.getCommandInformation());
+				currentState = backlogState;
+			}
+
+			else if (command.getCommand() == Command.CommandValue.REJECT) {
+				setRejectionReason(command.getCommandInformation());
+				currentState = rejectedState;
+			} else {
+				throw new UnsupportedOperationException("Invalid command for user story state");
+			}
+
 		}
 
 		/**
@@ -387,7 +469,7 @@ public class UserStory {
 		 * @return the name of the current state as a String.
 		 */
 		public String getStateName() {
-			return null;
+			return SUBMITTED_NAME;
 		}
 	}
 
@@ -398,14 +480,7 @@ public class UserStory {
 	 * @author yujim
 	 *
 	 */
-	private class BacklogState implements UserStoryState {
-
-		/**
-		 * Constructs the backlog state for a story.
-		 */
-		private BacklogState() {
-			// add code here
-		}
+	private final class BacklogState implements UserStoryState {
 
 		/**
 		 * Update the UserStory based on the given Command. An
@@ -419,6 +494,16 @@ public class UserStory {
 		 */
 		public void updateState(Command command) {
 			// add code here
+			if (command.getCommand() == Command.CommandValue.ASSIGN) {
+				setDeveloperId(command.getCommandInformation());
+				currentState = workingState;
+			} else if (command.getCommand() == Command.CommandValue.REJECT) {
+				setRejectionReason(command.getCommandInformation());
+				currentState = rejectedState;
+			} else {
+				throw new UnsupportedOperationException("Invalid command for user story state");
+			}
+
 		}
 
 		/**
@@ -427,7 +512,7 @@ public class UserStory {
 		 * @return the name of the current state as a String.
 		 */
 		public String getStateName() {
-			return null;
+			return BACKLOG_NAME;
 		}
 	}
 
@@ -438,14 +523,7 @@ public class UserStory {
 	 * @author yujim
 	 *
 	 */
-	private class WorkingState implements UserStoryState {
-
-		/**
-		 * Constructs the working state for a story.
-		 */
-		private WorkingState() {
-			// add code here
-		}
+	private final class WorkingState implements UserStoryState {
 
 		/**
 		 * Update the UserStory based on the given Command. An
@@ -459,6 +537,19 @@ public class UserStory {
 		 */
 		public void updateState(Command command) {
 			// add code here
+			if (command.getCommand() == Command.CommandValue.ASSIGN) {
+				setDeveloperId(command.getCommandInformation());
+				currentState = workingState;
+			} else if (command.getCommand() == Command.CommandValue.REJECT) {
+				setRejectionReason(command.getCommandInformation());
+				currentState = rejectedState;
+			} else if (command.getCommand() == Command.CommandValue.REOPEN) {
+				currentState = backlogState;
+			} else if (command.getCommand() == Command.CommandValue.REVIEW) {
+				currentState = verifyingState;
+			} else {
+				throw new UnsupportedOperationException("Invalid command for user story state");
+			}
 		}
 
 		/**
@@ -467,7 +558,7 @@ public class UserStory {
 		 * @return the name of the current state as a String.
 		 */
 		public String getStateName() {
-			return null;
+			return WORKING_NAME;
 		}
 
 	}
@@ -479,14 +570,7 @@ public class UserStory {
 	 * @author yujim
 	 *
 	 */
-	private class VerifyingState implements UserStoryState {
-
-		/**
-		 * Constructs the verifying state for a story.
-		 */
-		private VerifyingState() {
-			// add code here
-		}
+	private final class VerifyingState implements UserStoryState {
 
 		/**
 		 * Update the UserStory based on the given Command. An
@@ -500,6 +584,15 @@ public class UserStory {
 		 */
 		public void updateState(Command command) {
 			// add code here
+			if (command.getCommand() == Command.CommandValue.REOPEN) {
+				currentState = workingState;
+			}
+			else if (command.getCommand() == Command.CommandValue.CONFIRM) {
+				currentState = completedState;
+			} else {
+				throw new UnsupportedOperationException("Invalid command for user story state");
+			}
+
 		}
 
 		/**
@@ -508,7 +601,7 @@ public class UserStory {
 		 * @return the name of the current state as a String.
 		 */
 		public String getStateName() {
-			return null;
+			return VERIFYING_NAME;
 		}
 	}
 
@@ -519,14 +612,7 @@ public class UserStory {
 	 * @author yujim
 	 *
 	 */
-	private class CompletedState implements UserStoryState {
-
-		/**
-		 * Constructs the completed state for a story.
-		 */
-		private CompletedState() {
-			// add code here
-		}
+	private final class CompletedState implements UserStoryState {
 
 		/**
 		 * Update the UserStory based on the given Command. An
@@ -540,6 +626,12 @@ public class UserStory {
 		 */
 		public void updateState(Command command) {
 			// add code here
+			if (command.getCommand() == Command.CommandValue.REOPEN) {
+				currentState = workingState;
+			}
+			else {
+				throw new UnsupportedOperationException("Invalid command for user story state");
+			}
 		}
 
 		/**
@@ -548,7 +640,7 @@ public class UserStory {
 		 * @return the name of the current state as a String.
 		 */
 		public String getStateName() {
-			return null;
+			return COMPLETED_NAME;
 		}
 	}
 
@@ -559,14 +651,7 @@ public class UserStory {
 	 * @author yujim
 	 *
 	 */
-	private class RejectedState implements UserStoryState {
-
-		/**
-		 * Constructs the rejected state for a story.
-		 */
-		private RejectedState() {
-			// add code here
-		}
+	private final class RejectedState implements UserStoryState {
 
 		/**
 		 * Update the UserStory based on the given Command. An
@@ -580,6 +665,12 @@ public class UserStory {
 		 */
 		public void updateState(Command command) {
 			// add code here
+			if (command.getCommand() == Command.CommandValue.RESUBMIT) {
+				currentState = submittedState;
+			}
+			else {
+				throw new UnsupportedOperationException("Invalid command for user story state");
+			}
 		}
 
 		/**
@@ -588,7 +679,7 @@ public class UserStory {
 		 * @return the name of the current state as a String.
 		 */
 		public String getStateName() {
-			return null;
+			return REJECTED_NAME;
 		}
 	}
 
