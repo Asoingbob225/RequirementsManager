@@ -370,8 +370,8 @@ class UserStoryTest {
 	void testSetCounter() {
 		int n = 0;
 		int id = 4;
-		n = id + 1;
-		assertEquals(5, n);
+		n = id;
+		assertEquals(4, n);
 
 	}
 
@@ -398,6 +398,20 @@ class UserStoryTest {
 		assertAll(() -> assertTrue(u.currentState == u.submittedState), () -> {
 			u.update(new Command(Command.CommandValue.BACKLOG, "low"));
 			assertTrue(u.currentState == u.backlogState);
+		});
+	}
+
+	/**
+	 * Test method for
+	 * {@link edu.ncsu.csc216.requirements_manager.model.user_story.UserStory#update(edu.ncsu.csc216.requirements_manager.model.command.Command)}.
+	 */
+	@Test
+	void testUpdateSubmittedB() {
+		UserStory u = new UserStory(TITLE, USER, ACTION, VALUE);
+
+		assertAll(() -> assertTrue(u.currentState == u.submittedState), () -> {
+			u.update(new Command(Command.CommandValue.REJECT, "Duplicate"));
+			assertTrue(u.currentState == u.rejectedState);
 		});
 	}
 
@@ -512,20 +526,6 @@ class UserStoryTest {
 		}, () -> {
 			u.update(new Command(Command.CommandValue.REVIEW, null));
 			assertTrue(u.currentState == u.verifyingState);
-		});
-	}
-
-	/**
-	 * Test method for
-	 * {@link edu.ncsu.csc216.requirements_manager.model.user_story.UserStory#update(edu.ncsu.csc216.requirements_manager.model.command.Command)}.
-	 */
-	@Test
-	void testUpdateSubmittedB() {
-		UserStory u = new UserStory(TITLE, USER, ACTION, VALUE);
-
-		assertAll(() -> assertTrue(u.currentState == u.submittedState), () -> {
-			u.update(new Command(Command.CommandValue.REJECT, "Duplicate"));
-			assertTrue(u.currentState == u.rejectedState);
 		});
 	}
 

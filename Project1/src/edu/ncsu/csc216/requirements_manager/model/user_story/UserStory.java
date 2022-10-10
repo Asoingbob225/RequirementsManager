@@ -88,7 +88,7 @@ public class UserStory {
 	 * 
 	 */
 	public UserStory(String title, String user, String action, String value) {
-
+		
 		storyId = counter;
 		incrementCounter();
 
@@ -125,6 +125,7 @@ public class UserStory {
 
 		if (storyId > counter) {
 			setCounter(storyId);
+			counter++;
 		}
 
 		setId(storyId);
@@ -350,12 +351,12 @@ public class UserStory {
 	}
 
 	/**
-	 * Used by clients of UserStory to set the counter value to a given number.
+	 * Used by clients of UserStory to set the counter value to a given id number.
 	 * 
 	 * @param counter value used to assign a storyId
 	 */
 	public static void setCounter(int id) {
-		counter = id + 1;
+		counter = id;
 	}
 
 	/**
