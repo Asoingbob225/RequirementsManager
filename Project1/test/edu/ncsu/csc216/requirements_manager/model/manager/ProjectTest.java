@@ -70,13 +70,7 @@ class ProjectTest {
 	@Test
 	void testAddUserStoryStringStringStringString() {
 		//fail("Not yet implemented");
-		Project p = new Project("New Project");
-		assertEquals(0, p.addUserStory("title1", "student", "action", "value"));
-//		assertEquals(1, p.addUserStory("title2", "student", "action", "value"));
-//		assertEquals(2, p.addUserStory("title3", "student", "action", "value"));
-		
-		
-		
+
 	}
 
 	/**
