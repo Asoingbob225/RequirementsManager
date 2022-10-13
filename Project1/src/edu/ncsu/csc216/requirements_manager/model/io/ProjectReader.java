@@ -56,13 +56,10 @@ public class ProjectReader {
 
 		while (n.hasNext()) {
 			try {	
-				Project j = processProject(n.next());
-				projects.add(j);
+				projects.add(processProject(n.next()));
 			}
 			catch (Exception e) {
 			}
-
-			
 		}
 
 		n.close();
@@ -84,7 +81,12 @@ public class ProjectReader {
 		n.useDelimiter("\\r?\\n?[*]");
 
 		while (n.hasNext()) {
-			project.addUserStory(processUserStory(n.next()));
+			try {
+				project.addUserStory(processUserStory(n.next()));
+			}
+			catch (Exception e) {
+				
+			}
 		}
 
 		n.close();
@@ -149,6 +151,8 @@ public class ProjectReader {
 		UserStory story = new UserStory(Integer.parseInt(id), state, title, priority, devId, reject, user, action,
 				value);
 
+		String s = story.toString();
+		
 		m.close();
 		n.close();
 
