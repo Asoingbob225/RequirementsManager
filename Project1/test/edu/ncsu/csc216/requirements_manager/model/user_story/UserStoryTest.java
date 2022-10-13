@@ -370,6 +370,7 @@ class UserStoryTest {
 		assertAll(() -> assertEquals(u.currentState, u.submittedState), () -> {
 			u.update(new Command(Command.CommandValue.BACKLOG, "Low"));
 			assertEquals(u.currentState, u.backlogState);
+			assertEquals("Low", u.getPriority());
 		});
 	}
 
@@ -384,6 +385,7 @@ class UserStoryTest {
 		assertAll(() -> assertEquals(u.currentState, u.submittedState), () -> {
 			u.update(new Command(Command.CommandValue.REJECT, "Duplicate"));
 			assertEquals(u.currentState, u.rejectedState);
+			assertEquals("Duplicate", u.getRejectionReason());
 		});
 	}
 
@@ -398,9 +400,11 @@ class UserStoryTest {
 		assertAll("state", () -> assertEquals(u.currentState, u.submittedState), () -> {
 			u.update(new Command(Command.CommandValue.BACKLOG, "Low"));
 			assertEquals(u.currentState, u.backlogState);
+			assertEquals("Low", u.getPriority());
 		}, () -> {
 			u.update(new Command(Command.CommandValue.ASSIGN, "jyu34"));
 			assertEquals(u.currentState, u.workingState);
+			assertEquals("jyu34", u.getDeveloperId());
 		});
 	}
 
@@ -415,9 +419,11 @@ class UserStoryTest {
 		assertAll("state", () -> assertEquals(u.currentState, u.submittedState), () -> {
 			u.update(new Command(Command.CommandValue.BACKLOG, "Low"));
 			assertEquals(u.currentState, u.backlogState);
+			assertEquals("Low", u.getPriority());
 		}, () -> {
 			u.update(new Command(Command.CommandValue.REJECT, "Duplicate"));
 			assertEquals(u.currentState, u.rejectedState);
+			assertEquals("Duplicate", u.getRejectionReason());
 		});
 	}
 
@@ -432,12 +438,15 @@ class UserStoryTest {
 		assertAll("state", () -> assertEquals(u.currentState, u.submittedState), () -> {
 			u.update(new Command(Command.CommandValue.BACKLOG, "Low"));
 			assertEquals(u.currentState, u.backlogState);
+			assertEquals("Low", u.getPriority());
 		}, () -> {
 			u.update(new Command(Command.CommandValue.ASSIGN, "jyu34"));
 			assertEquals(u.currentState, u.workingState);
+			assertEquals("jyu34", u.getDeveloperId());
 		}, () -> {
-			u.update(new Command(Command.CommandValue.ASSIGN, "lacurlee"));
+			u.update(new Command(Command.CommandValue.ASSIGN, "sesmith5"));
 			assertEquals(u.currentState, u.workingState);
+			assertEquals("sesmith5", u.getDeveloperId());
 		});
 	}
 
@@ -452,12 +461,15 @@ class UserStoryTest {
 		assertAll("state", () -> assertEquals(u.currentState, u.submittedState), () -> {
 			u.update(new Command(Command.CommandValue.BACKLOG, "Low"));
 			assertEquals(u.currentState, u.backlogState);
+			assertEquals(u.currentState, u.backlogState);
 		}, () -> {
 			u.update(new Command(Command.CommandValue.ASSIGN, "jyu34"));
 			assertEquals(u.currentState, u.workingState);
+			assertEquals("jyu34", u.getDeveloperId());
 		}, () -> {
 			u.update(new Command(Command.CommandValue.REJECT, "Duplicate"));
 			assertEquals(u.currentState, u.rejectedState);
+			assertEquals("Duplicate", u.getRejectionReason());
 		});
 	}
 
@@ -472,9 +484,11 @@ class UserStoryTest {
 		assertAll("state", () -> assertEquals(u.currentState, u.submittedState), () -> {
 			u.update(new Command(Command.CommandValue.BACKLOG, "Low"));
 			assertEquals(u.currentState, u.backlogState);
+			assertEquals("Low", u.getPriority());
 		}, () -> {
 			u.update(new Command(Command.CommandValue.ASSIGN, "jyu34"));
 			assertEquals(u.currentState, u.workingState);
+			assertEquals("jyu34", u.getDeveloperId());
 		}, () -> {
 			u.update(new Command(Command.CommandValue.REOPEN, null));
 			assertEquals(u.currentState, u.backlogState);
@@ -491,10 +505,12 @@ class UserStoryTest {
 
 		assertAll("state", () -> assertEquals(u.currentState, u.submittedState), () -> {
 			u.update(new Command(Command.CommandValue.BACKLOG, "Low"));
+			assertEquals("Low", u.getPriority());
 			assertEquals(u.currentState, u.backlogState);
 		}, () -> {
 			u.update(new Command(Command.CommandValue.ASSIGN, "jyu34"));
 			assertEquals(u.currentState, u.workingState);
+			assertEquals("jyu34", u.getDeveloperId());
 		}, () -> {
 			u.update(new Command(Command.CommandValue.REVIEW, null));
 			assertEquals(u.currentState, u.verifyingState);
@@ -512,9 +528,11 @@ class UserStoryTest {
 		assertAll("state", () -> assertEquals(u.currentState, u.submittedState), () -> {
 			u.update(new Command(Command.CommandValue.BACKLOG, "Low"));
 			assertEquals(u.currentState, u.backlogState);
+			assertEquals("Low", u.getPriority());
 		}, () -> {
 			u.update(new Command(Command.CommandValue.ASSIGN, "jyu34"));
 			assertEquals(u.currentState, u.workingState);
+			assertEquals("jyu34", u.getDeveloperId());
 		}, () -> {
 			u.update(new Command(Command.CommandValue.REVIEW, null));
 			assertEquals(u.currentState, u.verifyingState);
@@ -535,9 +553,11 @@ class UserStoryTest {
 		assertAll(() -> assertEquals(u.currentState, u.submittedState), () -> {
 			u.update(new Command(Command.CommandValue.BACKLOG, "Low"));
 			assertEquals(u.currentState, u.backlogState);
+			assertEquals("Low", u.getPriority());
 		}, () -> {
 			u.update(new Command(Command.CommandValue.ASSIGN, "jyu34"));
 			assertEquals(u.currentState, u.workingState);
+			assertEquals("jyu34", u.getDeveloperId());
 		}, () -> {
 			u.update(new Command(Command.CommandValue.REVIEW, null));
 			assertEquals(u.currentState, u.verifyingState);
@@ -558,9 +578,11 @@ class UserStoryTest {
 		assertAll("state", () -> assertEquals(u.currentState, u.submittedState), () -> {
 			u.update(new Command(Command.CommandValue.BACKLOG, "Low"));
 			assertEquals(u.currentState, u.backlogState);
+			assertEquals("Low", u.getPriority());
 		}, () -> {
 			u.update(new Command(Command.CommandValue.ASSIGN, "jyu34"));
 			assertEquals(u.currentState, u.workingState);
+			assertEquals("jyu34", u.getDeveloperId());
 		}, () -> {
 			u.update(new Command(Command.CommandValue.REVIEW, null));
 			assertEquals(u.currentState, u.verifyingState);
@@ -584,9 +606,11 @@ class UserStoryTest {
 		assertAll("state", () -> assertEquals(u.currentState, u.submittedState), () -> {
 			u.update(new Command(Command.CommandValue.BACKLOG, "Low"));
 			assertEquals(u.currentState, u.backlogState);
+			assertEquals("Low", u.getPriority());
 		}, () -> {
 			u.update(new Command(Command.CommandValue.REJECT, "Duplicate"));
 			assertEquals(u.currentState, u.rejectedState);
+			assertEquals("Duplicate", u.getRejectionReason());
 		}, () -> {
 			u.update(new Command(Command.CommandValue.RESUBMIT, null));
 			assertEquals(u.currentState, u.submittedState);
