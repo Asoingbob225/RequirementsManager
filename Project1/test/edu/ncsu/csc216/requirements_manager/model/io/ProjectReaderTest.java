@@ -24,17 +24,14 @@ class ProjectReaderTest {
 	/**
 	 * Test method for
 	 * {@link edu.ncsu.csc216.requirements_manager.model.io.ProjectReader#readProjectFile(java.lang.String)}.
+	 * @throws FileNotFoundException 
 	 */
 	@Test
-	void testReadProjectFile() {
+	void testReadProjectFile() throws FileNotFoundException {
 		//fail("Not yet implemented");
-		
-		try {
+	
 			ArrayList<Project> project = ProjectReader.readProjectFile(validTestFile);
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+			assertTrue(project.get(0).getProjectName().equals("WolfScheduler"));
 	}
 
 }

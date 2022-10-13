@@ -43,7 +43,7 @@ public class UserStory {
 	/** Unique id for an user story */
 	private int storyId;
 	/** Current state for the user story of type UserStoryState */
-	private String state;
+	private UserStoryState state;
 	/** Title of the user story as provided by the user on creation */
 	private String title;
 	/** The user information for a story (As a) **/
@@ -122,8 +122,7 @@ public class UserStory {
 			String developerId, String rejectionReason) {
 
 		if (storyId > counter) {
-			setCounter(storyId);
-			counter++;
+			setCounter(storyId + 1);
 		}
 
 		setId(storyId);
@@ -166,7 +165,7 @@ public class UserStory {
 	 * @return story's state
 	 */
 	public String getState() {
-		return state;
+		return state.getStateName();
 	}
 
 	/**
@@ -176,12 +175,31 @@ public class UserStory {
 	 * @throws IllegalArgumentException if state is null or length 0
 	 */
 	public void setState(String state) {
-		if (state != submittedState.getStateName() && state != backlogState.getStateName()
-				&& state != workingState.getStateName() && state != verifyingState.getStateName()
-				&& state != completedState.getStateName() && state != rejectedState.getStateName()) {
+//		if (state != submittedState.getStateName() && state != backlogState.getStateName()
+//				&& state != workingState.getStateName() && state != verifyingState.getStateName()
+//				&& state != completedState.getStateName() && state != rejectedState.getStateName()) {
+//			throw new IllegalArgumentException("Invalid state");
+//		}
+//		this.state = state;
+
+		if (state == null) {
+			throw new IllegalArgumentException("Invalid state");
+		} else if (state.equals(SUBMITTED_NAME)) {
+			this.state = submittedState;
+		} else if (state.equals(BACKLOG_NAME)) {
+			this.state = backlogState;
+		} else if (state.equals(WORKING_NAME)) {
+			this.state = workingState;
+		} else if (state.equals(VERIFYING_NAME)) {
+			this.state = verifyingState;
+		} else if (state.equals(COMPLETED_NAME)) {
+			this.state = completedState;
+		} else if (state.equals(REJECTED_NAME)) {
+			this.state = rejectedState;
+		}
+		else {
 			throw new IllegalArgumentException("Invalid state");
 		}
-		this.state = state;
 	}
 
 	/**
@@ -289,15 +307,21 @@ public class UserStory {
 	 * @throws IllegalArgumentException if priority is not low, medium, or high
 	 */
 	public void setPriority(String priority) {
-//		if (((currentState == backlogState || currentState == workingState || currentState == verifyingState || currentState == completedState) && (priority != HIGH_PRIORITY && priority != MEDIUM_PRIORITY && priority != LOW_PRIORITY))|| ((currentState == submittedState || currentState == rejectedState) && priority != null)) {
-//			throw new IllegalArgumentException("Invalid priority");
-//		}
-		if (priority == null || (priority.equals(HIGH_PRIORITY) || priority.equals(MEDIUM_PRIORITY)
-				|| priority.equals(LOW_PRIORITY))) {
-			this.priority = priority;
-		} else {
+
+		if (priority != null && !priority.equals(HIGH_PRIORITY) && !priority.equals(MEDIUM_PRIORITY)
+				&& !priority.equals(LOW_PRIORITY)) {
 			throw new IllegalArgumentException("Invalid priority");
 		}
+		if ((state.getStateName().equals(BACKLOG_NAME) || state.getStateName().equals(WORKING_NAME)
+				|| state.getStateName().equals(VERIFYING_NAME) || state.getStateName().equals(COMPLETED_NAME))
+				&& priority == null) {
+			throw new IllegalArgumentException("Invalid priority");
+		}
+		if ((state.getStateName().equals(SUBMITTED_NAME) || state.getStateName().equals(REJECTED_NAME))
+				&& priority != null) {
+			throw new IllegalArgumentException("Invalid priority");
+		}
+		this.priority = priority;
 	}
 
 	/**
@@ -316,11 +340,16 @@ public class UserStory {
 	 * @throws IllegalArgumentException if developer id is null of length 0
 	 */
 	public void setDeveloperId(String developerId) {
-		if (developerId == null || developerId.length() != 0) {
-			this.developerId = developerId;
-		} else {
+
+		if (state.getStateName().equals(WORKING_NAME) || state.getStateName().equals(VERIFYING_NAME)
+				|| state.getStateName().equals(COMPLETED_NAME) && developerId == null) {
 			throw new IllegalArgumentException("Invalid developer id");
 		}
+		if ((state.getStateName().equals(SUBMITTED_NAME) || state.getStateName().equals(BACKLOG_NAME)
+				|| state.getStateName().equals(REJECTED_NAME)) && developerId != null) {
+			throw new IllegalArgumentException("Invalid developer id");
+		}
+		this.developerId = developerId;
 	}
 
 	/**
@@ -340,13 +369,19 @@ public class UserStory {
 	 *                                  inappropriate, or infeasible
 	 */
 	public void setRejectionReason(String rejectionReason) {
-		if (rejectionReason == null || (rejectionReason.equals(DUPLICATE_REJECTION)
-				|| rejectionReason.equals(INAPPROPRIATE_REJECTION) || rejectionReason.equals(INFEASIBLE_REJECTION))) {
-			this.rejectionReason = rejectionReason;
-		}
-		else {
+		if (rejectionReason != null && !rejectionReason.equals(INAPPROPRIATE_REJECTION)
+				&& !rejectionReason.equals(DUPLICATE_REJECTION) && !rejectionReason.equals(INFEASIBLE_REJECTION)) {
 			throw new IllegalArgumentException("Invalid rejection reason");
 		}
+		if (state.getStateName().equals(REJECTED_NAME) && rejectionReason == null) {
+			throw new IllegalArgumentException("Invalid rejection reason");
+		}
+		if ((state.getStateName().equals(SUBMITTED_NAME) || state.getStateName().equals(BACKLOG_NAME)
+				|| state.getStateName().equals(WORKING_NAME) || state.getStateName().equals(VERIFYING_NAME)
+				|| state.getStateName().equals(COMPLETED_NAME)) && rejectionReason != null) {
+			throw new IllegalArgumentException("Invalid rejection reason");
+		}
+		this.rejectionReason = rejectionReason;
 	}
 
 	/**
@@ -372,8 +407,8 @@ public class UserStory {
 	 * @return String representation of UserStory
 	 */
 	public String toString() {
-		return "* " + storyId + "," + state + "," + title + "," + priority + "," + developerId + "," + rejectionReason
-				+ "\n" + "- " + user + "\n" + "- " + action + "\n" + "- " + value;
+		return "* " + storyId + "," + state.getStateName() + "," + title + "," + priority + "," + developerId + ","
+				+ rejectionReason + "\n" + "- " + user + "\n" + "- " + action + "\n" + "- " + value;
 
 	}
 
@@ -457,12 +492,12 @@ public class UserStory {
 		public void updateState(Command command) {
 			// add code here
 			if (command.getCommand() == Command.CommandValue.BACKLOG) {
-				setPriority(command.getCommandInformation());
+				priority = command.getCommandInformation();
 				currentState = backlogState;
 			}
 
 			else if (command.getCommand() == Command.CommandValue.REJECT) {
-				setRejectionReason(command.getCommandInformation());
+				rejectionReason = command.getCommandInformation();
 				currentState = rejectedState;
 			} else {
 				throw new UnsupportedOperationException("Invalid command for user story state");
@@ -502,10 +537,10 @@ public class UserStory {
 		public void updateState(Command command) {
 			// add code here
 			if (command.getCommand() == Command.CommandValue.ASSIGN) {
-				setDeveloperId(command.getCommandInformation());
+				developerId = command.getCommandInformation();
 				currentState = workingState;
 			} else if (command.getCommand() == Command.CommandValue.REJECT) {
-				setRejectionReason(command.getCommandInformation());
+				rejectionReason = command.getCommandInformation();
 				currentState = rejectedState;
 			} else {
 				throw new UnsupportedOperationException("Invalid command for user story state");
@@ -545,10 +580,10 @@ public class UserStory {
 		public void updateState(Command command) {
 			// add code here
 			if (command.getCommand() == Command.CommandValue.ASSIGN) {
-				setDeveloperId(command.getCommandInformation());
+				developerId = command.getCommandInformation();
 				currentState = workingState;
 			} else if (command.getCommand() == Command.CommandValue.REJECT) {
-				setRejectionReason(command.getCommandInformation());
+				rejectionReason = command.getCommandInformation();
 				currentState = rejectedState;
 			} else if (command.getCommand() == Command.CommandValue.REOPEN) {
 				currentState = backlogState;

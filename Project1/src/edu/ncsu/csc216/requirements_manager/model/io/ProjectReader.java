@@ -38,7 +38,7 @@ public class ProjectReader {
 		try {
 			fileReader = new Scanner(new FileInputStream(filename)); // Create a file scanner to read the file
 
-		} catch (Exception e) {
+		} catch (FileNotFoundException e) {
 			throw new IllegalArgumentException("Unable to load file.");
 
 		}
