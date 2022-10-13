@@ -17,8 +17,9 @@ import edu.ncsu.csc216.requirements_manager.model.user_story.UserStory;
  */
 class ProjectTest {
 	
-	
-
+	public static final UserStory u1 = new UserStory(5, "Working", "title1", "student", "action", "value", "High", "jyu34", null);
+	public static final UserStory u2 = new UserStory(2, "Submitted", "title2", "student", "action", "value", null, null, null);
+	public static final UserStory u3 = new UserStory(4, "Backlog", "title3", "student", "action", "value", "Medium", null, null);
 	
 	/**
 	 * Resets counter to 0 for use in other tests.
@@ -29,8 +30,6 @@ class ProjectTest {
 	public void setUp() throws Exception {
 		// Reset the counter to 0 at the beginning of every test.
 		UserStory.setCounter(0);
-		
-
 
 	}
 
@@ -60,10 +59,7 @@ class ProjectTest {
 	 */
 	@Test
 	void testSetUserStoryId() {
-		//Stories used for testing
-		UserStory u1 = new UserStory(5, "Working", "title1", "student", "action", "value", "High", "jyu34", null);
-		UserStory u2 = new UserStory(2, "Submitted", "title2", "student", "action", "value", null, null, null);
-		UserStory u3 = new UserStory(4, "Backlog", "title3", "student", "action", "value", "Medium", null, null);
+
 		
 		Project p = new Project("New Project");
 		p.addUserStory(u2);
@@ -116,10 +112,6 @@ class ProjectTest {
 	 */
 	@Test
 	void testAddUserStoryUserStory() {
-		//Stories used for testing
-		UserStory u1 = new UserStory(5, "Working", "title1", "student", "action", "value", "High", "jyu34", null);
-		UserStory u2 = new UserStory(2, "Submitted", "title2", "student", "action", "value", null, null, null);
-		UserStory u3 = new UserStory(4, "Backlog", "title3", "student", "action", "value", "Medium", null, null);
 		
 		Project p = new Project("New Project");
 		
@@ -149,16 +141,16 @@ class ProjectTest {
 	 */
 	@Test
 	void testGetUserStoryById() {
-		//fail("Not yet implemented");
-		Project p = new Project("New Project");
-		p.addUserStory("title1", "student", "action", "value");
-		p.addUserStory("title2", "student", "action", "value");
-		p.addUserStory("title3", "student", "action", "value");
 		
-		assertEquals(p.getUserStoryById(0), p.getUserStories().get(0));
-		assertEquals(p.getUserStoryById(1), p.getUserStories().get(1));
-		assertEquals(p.getUserStoryById(2), p.getUserStories().get(2));
-		assertEquals(p.getUserStoryById(5), null);
+		Project p = new Project("New Project");
+		p.addUserStory(u1);
+		p.addUserStory(u2);
+		p.addUserStory(u3);
+		
+		assertEquals(u1, p.getUserStoryById(5));
+		assertEquals(u2, p.getUserStoryById(2));
+		assertEquals(u3, p.getUserStoryById(4));
+		assertEquals(p.getUserStoryById(9), null);
 		
 	}
 
@@ -169,16 +161,18 @@ class ProjectTest {
 	void testDeleteUserStoryById() {
 		//fail("Not yet implemented");
 		Project p = new Project("New Project");
-		p.addUserStory("title1", "student", "action", "value");
-		p.addUserStory("title2", "student", "action", "value");
-		p.addUserStory("title3", "student", "action", "value");
+		p.addUserStory(u1);
+		p.addUserStory(u2);
+		p.addUserStory(u3);
+		
+		
 		
 		assertTrue(p.getUserStories().size() == 3);
-		p.deleteUserStoryById(0);
+		p.deleteUserStoryById(5);
 		assertTrue(p.getUserStories().size() == 2);
-		p.deleteUserStoryById(1);
-		assertTrue(p.getUserStories().size() == 1);
 		p.deleteUserStoryById(2);
+		assertTrue(p.getUserStories().size() == 1);
+		p.deleteUserStoryById(4);
 		assertTrue(p.getUserStories().size() == 0);
 	}
 
@@ -189,24 +183,24 @@ class ProjectTest {
 	void testExecuteCommand() {
 		//fail("Not yet implemented");
 		Project p = new Project("New Project");
-		p.addUserStory("title1", "student", "action", "value");
-		p.addUserStory("title2", "student", "action", "value");
-		p.addUserStory("title3", "student", "action", "value");
+		p.addUserStory(u1);
+		p.addUserStory(u2);
+		p.addUserStory(u3);
 		
-		p.executeCommand(0, new Command(Command.CommandValue.BACKLOG, "Low"));
-		assertTrue(p.getUserStories().get(0).currentState == p.getUserStories().get(0).backlogState);
-		
-		p.executeCommand(1, new Command(Command.CommandValue.REJECT, "Duplicate"));
-		assertTrue(p.getUserStories().get(1).currentState == p.getUserStories().get(1).rejectedState);
-		
-		p.executeCommand(1, new Command(Command.CommandValue.RESUBMIT, null));
-		assertTrue(p.getUserStories().get(1).currentState == p.getUserStories().get(1).submittedState);
-		
-		p.executeCommand(2, new Command(Command.CommandValue.BACKLOG, "Low"));
-		assertTrue(p.getUserStories().get(2).currentState == p.getUserStories().get(2).backlogState);
-		
-		p.executeCommand(2, new Command(Command.CommandValue.ASSIGN, "jyu34"));
+		p.executeCommand(5, new Command(Command.CommandValue.ASSIGN, "jyu34"));
 		assertTrue(p.getUserStories().get(2).currentState == p.getUserStories().get(2).workingState);
+		
+		p.executeCommand(2, new Command(Command.CommandValue.REJECT, "Duplicate"));
+		assertTrue(p.getUserStories().get(0).currentState == p.getUserStories().get(0).rejectedState);
+		
+		p.executeCommand(2, new Command(Command.CommandValue.RESUBMIT, null));
+		assertTrue(p.getUserStories().get(0).currentState == p.getUserStories().get(0).submittedState);
+		
+		p.executeCommand(4, new Command(Command.CommandValue.ASSIGN, "jyu34"));
+		assertTrue(p.getUserStories().get(1).currentState == p.getUserStories().get(1).workingState);
+		
+		p.executeCommand(4, new Command(Command.CommandValue.REJECT, "Duplicate"));
+		assertTrue(p.getUserStories().get(1).currentState == p.getUserStories().get(1).rejectedState);
 		
 	}
 
