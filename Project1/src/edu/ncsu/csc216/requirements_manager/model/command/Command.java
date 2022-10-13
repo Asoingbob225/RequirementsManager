@@ -18,6 +18,7 @@ public class Command {
 	 * @author yujim
 	 */
 	public enum CommandValue {
+		/** Enumeration fields **/
 		BACKLOG, ASSIGN, REVIEW, CONFIRM, REOPEN, REJECT, RESUBMIT
 	}
 

@@ -5,6 +5,7 @@ package edu.ncsu.csc216.requirements_manager.model.io;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.io.File;
 import java.io.IOException;
@@ -16,6 +17,7 @@ import edu.ncsu.csc216.requirements_manager.model.manager.Project;
 import edu.ncsu.csc216.requirements_manager.model.user_story.UserStory;
 
 /**
+ * Tests the ProjectWriter class
  * @author stbeuav
  *
  */
@@ -26,9 +28,7 @@ class ProjectWriterTest {
 	 * {@link edu.ncsu.csc216.requirements_manager.model.io.ProjectWriter#writeProjectToFile(java.lang.String, edu.ncsu.csc216.requirements_manager.model.manager.Project)}.
 	 */
 	@Test
-	void testWriteProjectToFile() {
-		//fail("Not yet implemented");
-		
+	void testWriteProjectToFile() {		
 		UserStory u1 = new UserStory(0, "Working", "title1", "student", "action", "value", "High", "jyu34", null);
 		UserStory u2 = new UserStory(1, "Submitted", "title2", "student", "action", "value", null, null, null);
 		UserStory u3 = new UserStory(2, "Backlog", "title3", "student", "action", "value", "Medium", null, null);
@@ -38,13 +38,10 @@ class ProjectWriterTest {
 		p.addUserStory(u2);
 		p.addUserStory(u3);
 		
-		try {
-			ProjectWriter.writeProjectToFile("test-files/actual_project1.txt", p);
-		} catch (IOException e) {
-			fail("Cannot write to course records file");
-		}
+		ProjectWriter.writeProjectToFile("test-files/actual_project1.txt", p);
 		checkFiles("test-files/expected_project1.txt", "test-files/actual_project1.txt");
-
+		
+		assertThrows(IllegalArgumentException.class, () -> ProjectWriter.writeProjectToFile("", p));
 	}
 	
 	/**

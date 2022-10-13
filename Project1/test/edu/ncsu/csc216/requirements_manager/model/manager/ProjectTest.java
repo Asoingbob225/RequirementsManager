@@ -12,15 +12,23 @@ import edu.ncsu.csc216.requirements_manager.model.command.Command;
 import edu.ncsu.csc216.requirements_manager.model.user_story.UserStory;
 
 /**
+ * Tests the Project class
+ * 
  * @author stbeuav
  *
  */
 class ProjectTest {
-	
-	public static final UserStory u1 = new UserStory(5, "Working", "title1", "student", "action", "value", "High", "jyu34", null);
-	public static final UserStory u2 = new UserStory(2, "Submitted", "title2", "student", "action", "value", null, null, null);
-	public static final UserStory u3 = new UserStory(4, "Backlog", "title3", "student", "action", "value", "Medium", null, null);
-	
+
+	/** user story 1 for testing **/
+	public static final UserStory U1 = new UserStory(5, "Working", "title1", "student", "action", "value", "High",
+			"jyu34", null);
+	/** user story 2 for testing **/
+	public static final UserStory U2 = new UserStory(2, "Submitted", "title2", "student", "action", "value", null, null,
+			null);
+	/** user story 3 for testing **/
+	public static final UserStory U3 = new UserStory(4, "Backlog", "title3", "student", "action", "value", "Medium",
+			null, null);
+
 	/**
 	 * Resets counter to 0 for use in other tests.
 	 * 
@@ -33,18 +41,18 @@ class ProjectTest {
 
 	}
 
-
 	/**
-	 * Test method for {@link edu.ncsu.csc216.requirements_manager.model.manager.Project#Project(java.lang.String, java.util.ArrayList)}.
+	 * Test method for
+	 * {@link edu.ncsu.csc216.requirements_manager.model.manager.Project#Project(java.lang.String, java.util.ArrayList)}.
 	 */
 	@Test
 	void testProject() {
-		//fail("Not yet implemented");
+		// fail("Not yet implemented");
 		Project p = new Project("New Project");
-		
+
 		assertEquals(0, p.getUserStories().size());
 		assertEquals("New Project", p.getProjectName(), "Invalid project name");
-		
+
 		Exception e1 = assertThrows(IllegalArgumentException.class, () -> new Project(null));
 		assertEquals("Invalid project name", e1.getMessage());
 
@@ -52,156 +60,154 @@ class ProjectTest {
 		assertEquals("Invalid project name", e2.getMessage());
 	}
 
-
-
 	/*
-	 * Test method for {@link edu.ncsu.csc216.requirements_manager.model.manager.Project#setUserStoryId()}.
+	 * Test method for {@link
+	 * edu.ncsu.csc216.requirements_manager.model.manager.Project#setUserStoryId()}.
 	 */
 	@Test
 	void testSetUserStoryId() {
 
-		
 		Project p = new Project("New Project");
-		p.addUserStory(u2);
+		p.addUserStory(U2);
 		assertEquals(1, p.getUserStories().size());
 		p.setUserStoryId();
 		assertEquals(3, UserStory.counter);
-		
-		p.addUserStory(u1);
+
+		p.addUserStory(U1);
 		p.setUserStoryId();
 		assertEquals(6, UserStory.counter);
-		
-		p.addUserStory(u3);
+
+		p.addUserStory(U3);
 		p.setUserStoryId();
 		assertEquals(6, UserStory.counter);
-		
+
 	}
 
 	/**
-	 * Test method for {@link edu.ncsu.csc216.requirements_manager.model.manager.Project#addUserStory(java.lang.String, java.lang.String, java.lang.String, java.lang.String)}.
+	 * Test method for
+	 * {@link edu.ncsu.csc216.requirements_manager.model.manager.Project#addUserStory(java.lang.String, java.lang.String, java.lang.String, java.lang.String)}.
 	 */
 	@Test
 	void testAddUserStoryStringStringStringString() {
-		
+
 		Project p = new Project("New Project");
-		
+
 		p.addUserStory("title1", "student", "action", "value");
 		assertEquals(1, p.getUserStories().size());
 		assertEquals(0, p.getUserStories().get(0).getId());
-		
+
 		UserStory.setCounter(5);
-		
+
 		p.addUserStory("title2", "student", "action", "value");
 		assertEquals(2, p.getUserStories().size());
 		assertEquals(5, p.getUserStories().get(1).getId());
-		
+
 		UserStory.setCounter(2);
-		
+
 		p.addUserStory("title3", "student", "action", "value");
 		assertEquals(3, p.getUserStories().size());
 		assertEquals(2, p.getUserStories().get(1).getId());
 		assertEquals(5, p.getUserStories().get(2).getId());
-		
+
 		UserStory.setCounter(0);
 		assertThrows(IllegalArgumentException.class, () -> p.addUserStory("title1", "student", "action", "value"));
 
 	}
 
 	/**
-	 * Test method for {@link edu.ncsu.csc216.requirements_manager.model.manager.Project#addUserStory(edu.ncsu.csc216.requirements_manager.model.user_story.UserStory)}.
+	 * Test method for
+	 * {@link edu.ncsu.csc216.requirements_manager.model.manager.Project#addUserStory(edu.ncsu.csc216.requirements_manager.model.user_story.UserStory)}.
 	 */
 	@Test
 	void testAddUserStoryUserStory() {
-		
+
 		Project p = new Project("New Project");
-		
-		p.addUserStory(u1);
+
+		p.addUserStory(U1);
 		assertEquals(1, p.getUserStories().size());
 		assertEquals(5, p.getUserStories().get(0).getId());
-		
-		p.addUserStory(u2);
+
+		p.addUserStory(U2);
 		assertEquals(2, p.getUserStories().size());
 		assertEquals(2, p.getUserStories().get(0).getId());
-				
-		p.addUserStory(u3);
+
+		p.addUserStory(U3);
 		assertEquals(3, p.getUserStories().size());
 		assertEquals(2, p.getUserStories().get(0).getId());
 		assertEquals(4, p.getUserStories().get(1).getId());
 		assertEquals(5, p.getUserStories().get(2).getId());
-		
-		
-		assertThrows(IllegalArgumentException.class, () -> p.addUserStory(u1));
-		
 
-		
+		assertThrows(IllegalArgumentException.class, () -> p.addUserStory(U1));
+
 	}
 
 	/**
-	 * Test method for {@link edu.ncsu.csc216.requirements_manager.model.manager.Project#getUserStoryById(int)}.
+	 * Test method for
+	 * {@link edu.ncsu.csc216.requirements_manager.model.manager.Project#getUserStoryById(int)}.
 	 */
 	@Test
 	void testGetUserStoryById() {
-		
+
 		Project p = new Project("New Project");
-		p.addUserStory(u1);
-		p.addUserStory(u2);
-		p.addUserStory(u3);
-		
-		assertEquals(u1, p.getUserStoryById(5));
-		assertEquals(u2, p.getUserStoryById(2));
-		assertEquals(u3, p.getUserStoryById(4));
+		p.addUserStory(U1);
+		p.addUserStory(U2);
+		p.addUserStory(U3);
+
+		assertEquals(U1, p.getUserStoryById(5));
+		assertEquals(U2, p.getUserStoryById(2));
+		assertEquals(U3, p.getUserStoryById(4));
 		assertEquals(p.getUserStoryById(9), null);
-		
+
 	}
 
 	/**
-	 * Test method for {@link edu.ncsu.csc216.requirements_manager.model.manager.Project#deleteUserStoryById(int)}.
+	 * Test method for
+	 * {@link edu.ncsu.csc216.requirements_manager.model.manager.Project#deleteUserStoryById(int)}.
 	 */
 	@Test
 	void testDeleteUserStoryById() {
-		//fail("Not yet implemented");
+		// fail("Not yet implemented");
 		Project p = new Project("New Project");
-		p.addUserStory(u1);
-		p.addUserStory(u2);
-		p.addUserStory(u3);
-		
-		
-		
-		assertTrue(p.getUserStories().size() == 3);
+		p.addUserStory(U1);
+		p.addUserStory(U2);
+		p.addUserStory(U3);
+
+		assertEquals(3, p.getUserStories().size());
 		p.deleteUserStoryById(5);
-		assertTrue(p.getUserStories().size() == 2);
+		assertEquals(2, p.getUserStories().size());
 		p.deleteUserStoryById(2);
-		assertTrue(p.getUserStories().size() == 1);
+		assertEquals(1, p.getUserStories().size());
 		p.deleteUserStoryById(4);
-		assertTrue(p.getUserStories().size() == 0);
+		assertEquals(0, p.getUserStories().size());
 	}
 
 	/**
-	 * Test method for {@link edu.ncsu.csc216.requirements_manager.model.manager.Project#executeCommand(int, edu.ncsu.csc216.requirements_manager.model.command.Command)}.
+	 * Test method for
+	 * {@link edu.ncsu.csc216.requirements_manager.model.manager.Project#executeCommand(int, edu.ncsu.csc216.requirements_manager.model.command.Command)}.
 	 */
 	@Test
 	void testExecuteCommand() {
-		//fail("Not yet implemented");
+		// fail("Not yet implemented");
 		Project p = new Project("New Project");
-		p.addUserStory(u1);
-		p.addUserStory(u2);
-		p.addUserStory(u3);
-		
+		p.addUserStory(U1);
+		p.addUserStory(U2);
+		p.addUserStory(U3);
+
 		p.executeCommand(5, new Command(Command.CommandValue.ASSIGN, "jyu34"));
-		assertTrue(p.getUserStories().get(2).currentState == p.getUserStories().get(2).workingState);
-		
+		assertEquals(p.getUserStories().get(2).currentState, p.getUserStories().get(2).workingState);
+
 		p.executeCommand(2, new Command(Command.CommandValue.REJECT, "Duplicate"));
-		assertTrue(p.getUserStories().get(0).currentState == p.getUserStories().get(0).rejectedState);
-		
+		assertEquals(p.getUserStories().get(0).currentState, p.getUserStories().get(0).rejectedState);
+
 		p.executeCommand(2, new Command(Command.CommandValue.RESUBMIT, null));
-		assertTrue(p.getUserStories().get(0).currentState == p.getUserStories().get(0).submittedState);
-		
+		assertEquals(p.getUserStories().get(0).currentState, p.getUserStories().get(0).submittedState);
+
 		p.executeCommand(4, new Command(Command.CommandValue.ASSIGN, "jyu34"));
-		assertTrue(p.getUserStories().get(1).currentState == p.getUserStories().get(1).workingState);
-		
+		assertEquals(p.getUserStories().get(1).currentState, p.getUserStories().get(1).workingState);
+
 		p.executeCommand(4, new Command(Command.CommandValue.REJECT, "Duplicate"));
-		assertTrue(p.getUserStories().get(1).currentState == p.getUserStories().get(1).rejectedState);
-		
+		assertEquals(p.getUserStories().get(1).currentState, p.getUserStories().get(1).rejectedState);
+
 	}
 
 }

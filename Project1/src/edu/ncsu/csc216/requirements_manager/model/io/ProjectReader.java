@@ -22,7 +22,7 @@ public class ProjectReader {
 	/**
 	 * Receives a String with the file name to read from. If the file cannot be
 	 * loaded because it doesn’t exist, the method will throw an
-	 * IllegalArgumentException with the message “Unable to load file.” Any invalid
+	 * IllegalArgumentException with the message 'Unable to load file.' Any invalid
 	 * user stories or projects (i.e., they cannot be constructed, information is
 	 * missing, or there is too much info for the item) are ignored.
 	 * 
@@ -31,7 +31,7 @@ public class ProjectReader {
 	 * @throws FileNotFoundException    if file is not found
 	 * @throws IllegalArgumentException if the file does not exist
 	 */
-	public static ArrayList<Project> readProjectFile(String filename) throws FileNotFoundException {
+	public static ArrayList<Project> readProjectFile(String filename){
 
 		ArrayList<Project> projects = new ArrayList<Project>();
 		Scanner fileReader;
@@ -59,6 +59,7 @@ public class ProjectReader {
 				projects.add(processProject(n.next()));
 			}
 			catch (Exception e) {
+				continue;
 			}
 		}
 
@@ -76,7 +77,6 @@ public class ProjectReader {
 	private static Project processProject(String line) {
 		Scanner n = new Scanner(line);
 		String projectName = n.nextLine().trim();
-		//System.out.println(projectName);
 		Project project = new Project(projectName);
 		n.useDelimiter("\\r?\\n?[*]");
 
@@ -85,7 +85,7 @@ public class ProjectReader {
 				project.addUserStory(processUserStory(n.next()));
 			}
 			catch (Exception e) {
-				
+				continue;
 			}
 		}
 
@@ -97,7 +97,7 @@ public class ProjectReader {
 	/**
 	 * Processes the user stories read from the file based on the story's title
 	 * 
-	 * @param string UserStory string
+	 * @param line UserStory string
 	 * @return story the processed UserStory
 	 */
 	private static UserStory processUserStory(String line) {
@@ -137,10 +137,11 @@ public class ProjectReader {
 		user = n.next().trim();
 		action = n.next().trim();
 		value = n.next().trim();
+		
+		
+		UserStory story = new UserStory(Integer.parseInt(id), state, title, user, action, value, priority, devId, reject);
 
 
-		UserStory story = new UserStory(Integer.parseInt(id), state, title, priority, devId, reject, user, action,
-				value);
 		
 		m.close();
 		n.close();

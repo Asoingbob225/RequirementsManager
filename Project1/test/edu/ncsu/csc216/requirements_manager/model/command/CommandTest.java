@@ -8,6 +8,8 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
 /**
+ * Tests the Command class
+ * 
  * @author stbeuav
  *
  */
@@ -33,8 +35,7 @@ class CommandTest {
 		Command c = assertDoesNotThrow(() -> new Command(Command.CommandValue.BACKLOG, "info"),
 				"Should not throw exception");
 
-		assertAll("Command",
-				() -> assertEquals(Command.CommandValue.BACKLOG, c.getCommand(), "Invalid command"),
+		assertAll("Command", () -> assertEquals(Command.CommandValue.BACKLOG, c.getCommand(), "Invalid command"),
 				() -> assertEquals("info", c.getCommandInformation(), "Invalid command information"));
 	}
 

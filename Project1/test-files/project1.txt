@@ -11,11 +11,11 @@
 - student
 - add a recurring event
 - schedule extra curricular activities
-* 3,Backlog,Export Schedule,Low,
+* 3,Backlog,Export Schedule,Low
 - student
 - export my schedule
 - so it's available when I register for classes
-* 4,Submitted,Change Title,
+* 4,Submitted,Change Title
 - student
 - change the title of my schedule
 - so I can have different schedules to consider

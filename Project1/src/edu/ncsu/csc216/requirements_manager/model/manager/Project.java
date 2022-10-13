@@ -183,7 +183,6 @@ public class Project {
 	 * @param id given id to match with the UserStory in the list
 	 */
 	public void deleteUserStoryById(int id) {
-		// add code here
 		for (int i = 0; i < userStories.size(); i++) {
 			if (id == userStories.get(i).getId()) {
 				userStories.remove(userStories.get(i));

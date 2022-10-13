@@ -25,17 +25,17 @@ public class UserStory {
 	public static final String COMPLETED_NAME = "Completed";
 	/** A constant string for the rejected state’s name **/
 	public static final String REJECTED_NAME = "Rejected";
-	/** A constant string for the priority of “High”. **/
+	/** A constant string for the priority of High. **/
 	public static final String HIGH_PRIORITY = "High";
-	/** A constant string for the priority of “Medium”. **/
+	/** A constant string for the priority of Medium. **/
 	public static final String MEDIUM_PRIORITY = "Medium";
-	/** A constant string for the priority of “Low”. **/
+	/** A constant string for the priority of Low. **/
 	public static final String LOW_PRIORITY = "Low";
-	/** A constant string for the rejection reason of “Duplicate”. **/
+	/** A constant string for the rejection reason of Duplicate. **/
 	public static final String DUPLICATE_REJECTION = "Duplicate";
-	/** A constant string for the rejection reason of “Inappropriate”. **/
-	public static final String INAPPROPRIATE_REJECTION = "Inapropriate";
-	/** A constant string for the rejection reason of “Infeasible”. **/
+	/** A constant string for the rejection reason of Inappropriate. **/
+	public static final String INAPPROPRIATE_REJECTION = "Inappropriate";
+	/** A constant string for the rejection reason of Infeasible. **/
 	public static final String INFEASIBLE_REJECTION = "Infeasible";
 
 	/** static field for counter used to create storyId **/
@@ -58,20 +58,24 @@ public class UserStory {
 	private String developerId;
 	/** The user story’s rejection reason **/
 	private String rejectionReason;
-
+	
+	
+	/** Represents the current state of the UserStory **/
+	public UserStoryState currentState;
+	/** Final instance of the SubmittedState inner class **/
 	public final UserStoryState submittedState = new SubmittedState();
-
+	/** Final instance of the BacklogState inner class **/
 	public final UserStoryState backlogState = new BacklogState();
-
+	/** Final instance of the WorkingState inner class **/
 	public final UserStoryState workingState = new WorkingState();
-
+	/** Final instance of the VerifyingState inner class **/
 	public final UserStoryState verifyingState = new VerifyingState();
-
+	/** Final instance of the CompletedState inner class **/
 	public final UserStoryState completedState = new CompletedState();
-
+	/** Final instance of the RejectedState inner class **/
 	public final UserStoryState rejectedState = new RejectedState();
 
-	public UserStoryState currentState;
+	
 
 	/**
 	 * Constructs a UserStory from the provided parameters. The storyId field is set
@@ -121,7 +125,7 @@ public class UserStory {
 	 */
 	public UserStory(int storyId, String state, String title, String user, String action, String value, String priority,
 			String developerId, String rejectionReason) {
-		
+
 		setId(storyId);
 		setState(state);
 		currentState = this.state;
@@ -132,11 +136,10 @@ public class UserStory {
 		setPriority(priority);
 		setDeveloperId(developerId);
 		setRejectionReason(rejectionReason);
-		
+
 		if (storyId > counter) {
 			setCounter(storyId + 1);
 		}
-
 
 	}
 
@@ -193,8 +196,7 @@ public class UserStory {
 			this.state = completedState;
 		} else if (state.equals(REJECTED_NAME)) {
 			this.state = rejectedState;
-		}
-		else {
+		} else {
 			throw new IllegalArgumentException("Invalid state");
 		}
 	}
@@ -391,7 +393,7 @@ public class UserStory {
 	/**
 	 * Used by clients of UserStory to set the counter value to a given id number.
 	 * 
-	 * @param counter value used to assign a storyId
+	 * @param id value used to assign a storyId
 	 */
 	public static void setCounter(int id) {
 		UserStory.counter = id;
@@ -404,8 +406,21 @@ public class UserStory {
 	 * @return String representation of UserStory
 	 */
 	public String toString() {
-		return "* " + storyId + "," + state.getStateName() + "," + title + "," + priority + "," + developerId + ","
-				+ rejectionReason + "\n" + "- " + user + "\n" + "- " + action + "\n" + "- " + value;
+
+		String string = "* " + storyId + "," + state.getStateName() + "," + title;
+
+		if (priority != null) {
+			string += "," + priority;
+		}
+		if (developerId != null) {
+			string += "," + developerId;
+		}
+		if (rejectionReason != null) {
+			string += "," + rejectionReason;
+		}
+		string += "\n" + "- " + user + "\n" + "- " + action + "\n" + "- " + value;
+
+		return string;
 
 	}
 
@@ -566,7 +581,7 @@ public class UserStory {
 	 * @author yujim
 	 *
 	 */
-	
+
 	private final class WorkingState implements UserStoryState {
 
 		/**

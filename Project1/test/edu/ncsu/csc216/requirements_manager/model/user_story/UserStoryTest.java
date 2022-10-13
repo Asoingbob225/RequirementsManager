@@ -11,19 +11,30 @@ import org.junit.jupiter.api.Test;
 import edu.ncsu.csc216.requirements_manager.model.command.Command;
 
 /**
+ * Tests the UserStory class
+ * 
  * @author stbeuav
  *
  */
 class UserStoryTest {
 
+	/** id value for testing **/
 	private static final int ID = 0;
+	/** state value for testing **/
 	private static final String STATE = "Backlog";
+	/** title value for testing **/
 	private static final String TITLE = "Add Event";
+	/** user value for testing **/
 	private static final String USER = "student";
+	/** action value for testing **/
 	private static final String ACTION = "action";
+	/** value value for testing **/
 	private static final String VALUE = "value";
+	/** priority value for testing **/
 	private static final String PRIORITY = "Medium";
+	/** developer id value for testing **/
 	private static final String DEVID = "jyu34";
+	/** rejection reason value for testing **/
 	private static final String REJECTREASON = "Duplicate";
 
 	/**
@@ -218,7 +229,7 @@ class UserStoryTest {
 		// fail("Not yet implemented");
 		UserStory u = new UserStory(ID, STATE, TITLE, USER, ACTION, VALUE, PRIORITY, null, null);
 
-	    assertThrows(IllegalArgumentException.class, () -> u.setUser(null));
+		assertThrows(IllegalArgumentException.class, () -> u.setUser(null));
 
 		assertThrows(IllegalArgumentException.class, () -> u.setUser(""));
 	}
@@ -232,7 +243,7 @@ class UserStoryTest {
 		// fail("Not yet implemented");
 		UserStory u = new UserStory(ID, STATE, TITLE, USER, ACTION, VALUE, PRIORITY, null, null);
 
-	    assertThrows(IllegalArgumentException.class, () -> u.setAction(null));
+		assertThrows(IllegalArgumentException.class, () -> u.setAction(null));
 
 		assertThrows(IllegalArgumentException.class, () -> u.setAction(""));
 	}
@@ -281,7 +292,6 @@ class UserStoryTest {
 		// fail("Not yet implemented");
 
 		UserStory u = new UserStory(ID, STATE, TITLE, USER, ACTION, VALUE, PRIORITY, null, null);
-
 
 		assertThrows(IllegalArgumentException.class, () -> u.setDeveloperId(""));
 		assertThrows(IllegalArgumentException.class, () -> u.setDeveloperId("jyu34"));
@@ -345,7 +355,7 @@ class UserStoryTest {
 	void testToString() {
 		// fail("Not yet implemented");
 		UserStory u = new UserStory(ID, STATE, TITLE, USER, ACTION, VALUE, PRIORITY, null, null);
-		String s = "* 0,Backlog,Add Event,Medium,null,null\n- student\n- action\n- value";
+		String s = "* 0,Backlog,Add Event,Medium\n- student\n- action\n- value";
 		assertEquals(s, u.toString());
 	}
 
@@ -357,9 +367,9 @@ class UserStoryTest {
 	void testUpdateSubmittedA() {
 		UserStory u = new UserStory(TITLE, USER, ACTION, VALUE);
 
-		assertAll(() -> assertTrue(u.currentState == u.submittedState), () -> {
+		assertAll(() -> assertEquals(u.currentState, u.submittedState), () -> {
 			u.update(new Command(Command.CommandValue.BACKLOG, "Low"));
-			assertTrue(u.currentState == u.backlogState);
+			assertEquals(u.currentState, u.backlogState);
 		});
 	}
 
@@ -371,9 +381,9 @@ class UserStoryTest {
 	void testUpdateSubmittedB() {
 		UserStory u = new UserStory(TITLE, USER, ACTION, VALUE);
 
-		assertAll(() -> assertTrue(u.currentState == u.submittedState), () -> {
+		assertAll(() -> assertEquals(u.currentState, u.submittedState), () -> {
 			u.update(new Command(Command.CommandValue.REJECT, "Duplicate"));
-			assertTrue(u.currentState == u.rejectedState);
+			assertEquals(u.currentState, u.rejectedState);
 		});
 	}
 
@@ -385,12 +395,12 @@ class UserStoryTest {
 	void testUpdateBacklogA() {
 		UserStory u = new UserStory(TITLE, USER, ACTION, VALUE);
 
-		assertAll("state", () -> assertTrue(u.currentState == u.submittedState), () -> {
+		assertAll("state", () -> assertEquals(u.currentState, u.submittedState), () -> {
 			u.update(new Command(Command.CommandValue.BACKLOG, "Low"));
-			assertTrue(u.currentState == u.backlogState);
+			assertEquals(u.currentState, u.backlogState);
 		}, () -> {
 			u.update(new Command(Command.CommandValue.ASSIGN, "jyu34"));
-			assertTrue(u.currentState == u.workingState);
+			assertEquals(u.currentState, u.workingState);
 		});
 	}
 
@@ -402,12 +412,12 @@ class UserStoryTest {
 	void testUpdateBacklogB() {
 		UserStory u = new UserStory(TITLE, USER, ACTION, VALUE);
 
-		assertAll("state", () -> assertTrue(u.currentState == u.submittedState), () -> {
+		assertAll("state", () -> assertEquals(u.currentState, u.submittedState), () -> {
 			u.update(new Command(Command.CommandValue.BACKLOG, "Low"));
-			assertTrue(u.currentState == u.backlogState);
+			assertEquals(u.currentState, u.backlogState);
 		}, () -> {
 			u.update(new Command(Command.CommandValue.REJECT, "Duplicate"));
-			assertTrue(u.currentState == u.rejectedState);
+			assertEquals(u.currentState, u.rejectedState);
 		});
 	}
 
@@ -419,15 +429,15 @@ class UserStoryTest {
 	void testUpdateWorkingA() {
 		UserStory u = new UserStory(TITLE, USER, ACTION, VALUE);
 
-		assertAll("state", () -> assertTrue(u.currentState == u.submittedState), () -> {
+		assertAll("state", () -> assertEquals(u.currentState, u.submittedState), () -> {
 			u.update(new Command(Command.CommandValue.BACKLOG, "Low"));
-			assertTrue(u.currentState == u.backlogState);
+			assertEquals(u.currentState, u.backlogState);
 		}, () -> {
 			u.update(new Command(Command.CommandValue.ASSIGN, "jyu34"));
-			assertTrue(u.currentState == u.workingState);
+			assertEquals(u.currentState, u.workingState);
 		}, () -> {
 			u.update(new Command(Command.CommandValue.ASSIGN, "lacurlee"));
-			assertTrue(u.currentState == u.workingState);
+			assertEquals(u.currentState, u.workingState);
 		});
 	}
 
@@ -439,15 +449,15 @@ class UserStoryTest {
 	void testUpdateWorkingB() {
 		UserStory u = new UserStory(TITLE, USER, ACTION, VALUE);
 
-		assertAll("state", () -> assertTrue(u.currentState == u.submittedState), () -> {
+		assertAll("state", () -> assertEquals(u.currentState, u.submittedState), () -> {
 			u.update(new Command(Command.CommandValue.BACKLOG, "Low"));
-			assertTrue(u.currentState == u.backlogState);
+			assertEquals(u.currentState, u.backlogState);
 		}, () -> {
 			u.update(new Command(Command.CommandValue.ASSIGN, "jyu34"));
-			assertTrue(u.currentState == u.workingState);
+			assertEquals(u.currentState, u.workingState);
 		}, () -> {
 			u.update(new Command(Command.CommandValue.REJECT, "Duplicate"));
-			assertTrue(u.currentState == u.rejectedState);
+			assertEquals(u.currentState, u.rejectedState);
 		});
 	}
 
@@ -459,15 +469,15 @@ class UserStoryTest {
 	void testUpdateWorkingC() {
 		UserStory u = new UserStory(TITLE, USER, ACTION, VALUE);
 
-		assertAll("state", () -> assertTrue(u.currentState == u.submittedState), () -> {
+		assertAll("state", () -> assertEquals(u.currentState, u.submittedState), () -> {
 			u.update(new Command(Command.CommandValue.BACKLOG, "Low"));
-			assertTrue(u.currentState == u.backlogState);
+			assertEquals(u.currentState, u.backlogState);
 		}, () -> {
 			u.update(new Command(Command.CommandValue.ASSIGN, "jyu34"));
-			assertTrue(u.currentState == u.workingState);
+			assertEquals(u.currentState, u.workingState);
 		}, () -> {
 			u.update(new Command(Command.CommandValue.REOPEN, null));
-			assertTrue(u.currentState == u.backlogState);
+			assertEquals(u.currentState, u.backlogState);
 		});
 	}
 
@@ -479,15 +489,15 @@ class UserStoryTest {
 	void testUpdateWorkingD() {
 		UserStory u = new UserStory(TITLE, USER, ACTION, VALUE);
 
-		assertAll("state", () -> assertTrue(u.currentState == u.submittedState), () -> {
+		assertAll("state", () -> assertEquals(u.currentState, u.submittedState), () -> {
 			u.update(new Command(Command.CommandValue.BACKLOG, "Low"));
-			assertTrue(u.currentState == u.backlogState);
+			assertEquals(u.currentState, u.backlogState);
 		}, () -> {
 			u.update(new Command(Command.CommandValue.ASSIGN, "jyu34"));
-			assertTrue(u.currentState == u.workingState);
+			assertEquals(u.currentState, u.workingState);
 		}, () -> {
 			u.update(new Command(Command.CommandValue.REVIEW, null));
-			assertTrue(u.currentState == u.verifyingState);
+			assertEquals(u.currentState, u.verifyingState);
 		});
 	}
 
@@ -499,18 +509,18 @@ class UserStoryTest {
 	void testUpdateVerifyingA() {
 		UserStory u = new UserStory(TITLE, USER, ACTION, VALUE);
 
-		assertAll("state", () -> assertTrue(u.currentState == u.submittedState), () -> {
+		assertAll("state", () -> assertEquals(u.currentState, u.submittedState), () -> {
 			u.update(new Command(Command.CommandValue.BACKLOG, "Low"));
-			assertTrue(u.currentState == u.backlogState);
+			assertEquals(u.currentState, u.backlogState);
 		}, () -> {
 			u.update(new Command(Command.CommandValue.ASSIGN, "jyu34"));
-			assertTrue(u.currentState == u.workingState);
+			assertEquals(u.currentState, u.workingState);
 		}, () -> {
 			u.update(new Command(Command.CommandValue.REVIEW, null));
-			assertTrue(u.currentState == u.verifyingState);
+			assertEquals(u.currentState, u.verifyingState);
 		}, () -> {
 			u.update(new Command(Command.CommandValue.CONFIRM, null));
-			assertTrue(u.currentState == u.completedState);
+			assertEquals(u.currentState, u.completedState);
 		});
 	}
 
@@ -522,18 +532,18 @@ class UserStoryTest {
 	void testUpdateVerifyingB() {
 		UserStory u = new UserStory(TITLE, USER, ACTION, VALUE);
 
-		assertAll(() -> assertTrue(u.currentState == u.submittedState), () -> {
+		assertAll(() -> assertEquals(u.currentState, u.submittedState), () -> {
 			u.update(new Command(Command.CommandValue.BACKLOG, "Low"));
-			assertTrue(u.currentState == u.backlogState);
+			assertEquals(u.currentState, u.backlogState);
 		}, () -> {
 			u.update(new Command(Command.CommandValue.ASSIGN, "jyu34"));
-			assertTrue(u.currentState == u.workingState);
+			assertEquals(u.currentState, u.workingState);
 		}, () -> {
 			u.update(new Command(Command.CommandValue.REVIEW, null));
-			assertTrue(u.currentState == u.verifyingState);
+			assertEquals(u.currentState, u.verifyingState);
 		}, () -> {
 			u.update(new Command(Command.CommandValue.REOPEN, null));
-			assertTrue(u.currentState == u.workingState);
+			assertEquals(u.currentState, u.workingState);
 		});
 	}
 
@@ -545,21 +555,21 @@ class UserStoryTest {
 	void testUpdateCompleted() {
 		UserStory u = new UserStory(TITLE, USER, ACTION, VALUE);
 
-		assertAll("state", () -> assertTrue(u.currentState == u.submittedState), () -> {
+		assertAll("state", () -> assertEquals(u.currentState, u.submittedState), () -> {
 			u.update(new Command(Command.CommandValue.BACKLOG, "Low"));
-			assertTrue(u.currentState == u.backlogState);
+			assertEquals(u.currentState, u.backlogState);
 		}, () -> {
 			u.update(new Command(Command.CommandValue.ASSIGN, "jyu34"));
-			assertTrue(u.currentState == u.workingState);
+			assertEquals(u.currentState, u.workingState);
 		}, () -> {
 			u.update(new Command(Command.CommandValue.REVIEW, null));
-			assertTrue(u.currentState == u.verifyingState);
+			assertEquals(u.currentState, u.verifyingState);
 		}, () -> {
 			u.update(new Command(Command.CommandValue.CONFIRM, null));
-			assertTrue(u.currentState == u.completedState);
+			assertEquals(u.currentState, u.completedState);
 		}, () -> {
 			u.update(new Command(Command.CommandValue.REOPEN, null));
-			assertTrue(u.currentState == u.workingState);
+			assertEquals(u.currentState, u.workingState);
 		});
 	}
 
@@ -571,15 +581,15 @@ class UserStoryTest {
 	void testUpdateRejected() {
 		UserStory u = new UserStory(TITLE, USER, ACTION, VALUE);
 
-		assertAll("state", () -> assertTrue(u.currentState == u.submittedState), () -> {
+		assertAll("state", () -> assertEquals(u.currentState, u.submittedState), () -> {
 			u.update(new Command(Command.CommandValue.BACKLOG, "Low"));
-			assertTrue(u.currentState == u.backlogState);
+			assertEquals(u.currentState, u.backlogState);
 		}, () -> {
 			u.update(new Command(Command.CommandValue.REJECT, "Duplicate"));
-			assertTrue(u.currentState == u.rejectedState);
+			assertEquals(u.currentState, u.rejectedState);
 		}, () -> {
 			u.update(new Command(Command.CommandValue.RESUBMIT, null));
-			assertTrue(u.currentState == u.submittedState);
+			assertEquals(u.currentState, u.submittedState);
 		});
 	}
 

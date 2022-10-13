@@ -3,20 +3,36 @@
  */
 package edu.ncsu.csc216.requirements_manager.model.manager;
 
+import java.io.IOException;
+import java.util.ArrayList;
+
 import edu.ncsu.csc216.requirements_manager.model.command.Command;
+import edu.ncsu.csc216.requirements_manager.model.io.ProjectReader;
+import edu.ncsu.csc216.requirements_manager.model.io.ProjectWriter;
 import edu.ncsu.csc216.requirements_manager.model.user_story.UserStory;
 
 /**
+ * This class controls the modification and creation of many projects.
+ * 
  * @author yujim
  *
  */
 public class RequirementsManager {
 
+	/** Static variable reference for the singleton **/
+	private static RequirementsManager instance = null;
+
+	/** List of projects **/
+	public ArrayList<Project> projects;
+
+	/** The current project **/
+	public Project currentProject;
+
 	/**
-	 * Constructs the requirements manager when called by the getInstance() method.
+	 * Constructor for Requirements Manager
 	 */
 	private RequirementsManager() {
-		// add code here
+		projects = new ArrayList<Project>();
 	}
 
 	/**
@@ -27,7 +43,11 @@ public class RequirementsManager {
 	 * @return instance the singleton instance of the RequirementsManager class
 	 */
 	public static RequirementsManager getInstance() {
-		return null;
+		if (instance == null) {
+			instance = new RequirementsManager();
+		}
+		return instance;
+
 	}
 
 	/**
@@ -37,11 +57,16 @@ public class RequirementsManager {
 	 * thrown.
 	 * 
 	 * @param filename name of the file to write the project to
+	 * @throws IOException              if unable to save file
 	 * @throws IllegalArgumentException if the currentProject is null or if there
 	 *                                  are no UserStorys in the currentProject
 	 */
 	public void saveCurrentProjectToFile(String filename) {
-		// add code here
+		if (currentProject == null || currentProject.getUserStories().size() == 0) {
+			throw new IllegalArgumentException("Invalid project");
+		}
+
+		ProjectWriter.writeProjectToFile(filename, currentProject);
 	}
 
 	/**
@@ -52,7 +77,13 @@ public class RequirementsManager {
 	 * @param filename name of the file to read from
 	 */
 	public void loadProjectsFromFile(String filename) {
-		// add code here
+
+		ArrayList<Project> p = ProjectReader.readProjectFile(filename);
+		for (int i = 0; i < p.size(); i++) {
+			projects.add(p.get(i));
+		}
+		currentProject = p.get(0);
+
 	}
 
 	/**
@@ -68,7 +99,34 @@ public class RequirementsManager {
 	 *                                  name (case-insensitive).
 	 */
 	public void createNewProject(String projectname) {
+		if (projectname == null || projectname.length() == 0) {
+			throw new IllegalArgumentException("Invalid project name");
+		}
+		for (int i = 0; i < projects.size(); i++) {
+			if (projects.get(i).getProjectName() == projectname) {
+				throw new IllegalArgumentException("Invalid project name");
+			}
+		}
+		Project newProject = new Project(projectname);
+		projects.add(newProject);
+		loadProject(projectname);
+	}
+
+	/**
+	 * Finds the Project with the given name in the list, makes it the active or
+	 * currentProject, and sets the user story id for that project so that any new
+	 * UserStorys added to the project are created with the next correct id.
+	 * 
+	 * @param projectname name of project to find
+	 */
+	public void loadProject(String projectname) {
 		// add code here
+		for (int i = 0; i < projects.size(); i++) {
+			if (projects.get(i).getProjectName() == projectname) {
+				currentProject = projects.get(i);
+				currentProject.setUserStoryId();
+			}
+		}
 	}
 
 	/**
@@ -80,7 +138,22 @@ public class RequirementsManager {
 	 *         information
 	 */
 	public String[][] getUserStoriesAsArray() {
-		return null;
+		if (currentProject == null) {
+			return null;
+		}
+		String[][] userStories = new String[currentProject.getUserStories().size()][4];
+
+		for (int i = 0; i < currentProject.getUserStories().size(); i++) {
+			userStories[i][0] = "" + currentProject.getUserStories().get(i).getId();
+			userStories[i][1] = currentProject.getUserStories().get(i).getState();
+			userStories[i][2] = currentProject.getUserStories().get(i).getTitle();
+			if (currentProject.getUserStories().get(i).getDeveloperId() == null) {
+				userStories[i][3] = "";
+			} else {
+				userStories[i][3] = currentProject.getUserStories().get(i).getDeveloperId();
+			}
+		}
+		return userStories;
 	}
 
 	/**
@@ -91,8 +164,8 @@ public class RequirementsManager {
 	 * @return the UserStory with the matching id, or null if there are no matching
 	 *         UserStories
 	 */
-	public UserStory getUserStoryById(int storyId) {
-		return null;
+	public UserStory getUserStoryById(int id) {
+		return currentProject.getUserStoryById(id);
 	}
 
 	/**
@@ -100,8 +173,8 @@ public class RequirementsManager {
 	 * 
 	 * @param id given id to match with the UserStory in the list
 	 */
-	public void deleteUserStoryById(int storyId) {
-		// add code here
+	public void deleteUserStoryById(int id) {
+		currentProject.deleteUserStoryById(id);
 	}
 
 	/**
@@ -112,7 +185,7 @@ public class RequirementsManager {
 	 * @param c  command to give to the found UserStory
 	 */
 	public void executeCommand(int id, Command c) {
-		// add code here
+		currentProject.executeCommand(id, c);
 	}
 
 	/**
@@ -125,18 +198,7 @@ public class RequirementsManager {
 	 * @param value  story's value information
 	 */
 	public void addUserStoryToProject(String title, String user, String action, String value) {
-		// add code here
-	}
-
-	/**
-	 * Finds the Project with the given name in the list, makes it the active or
-	 * currentProject, and sets the user story id for that project so that any new
-	 * UserStorys added to the project are created with the next correct id.
-	 * 
-	 * @param projectname name of project to find
-	 */
-	public void loadProject(String projectname) {
-		// add code here
+		currentProject.addUserStory(title, user, action, value);
 	}
 
 	/**
@@ -146,7 +208,10 @@ public class RequirementsManager {
 	 * @return returns the project name, or null if the name is null
 	 */
 	public String getProjectName() {
-		return null;
+		if (currentProject == null) {
+			return null;
+		}
+		return currentProject.getProjectName();
 	}
 
 	/**
@@ -156,14 +221,21 @@ public class RequirementsManager {
 	 * @return names String array of project names as listed in the projects list
 	 */
 	public String[] getProjectList() {
-		return null;
+
+		String[] projectNames = new String[projects.size()];
+
+		for (int i = 0; i < projects.size(); i++) {
+			projectNames[i] = projects.get(i).getProjectName();
+		}
+
+		return projectNames;
 	}
 
 	/**
 	 * Sets the singleton to null
 	 */
 	protected void resetManager() {
-		// add code here
+		instance = null;
 	}
 
 }
