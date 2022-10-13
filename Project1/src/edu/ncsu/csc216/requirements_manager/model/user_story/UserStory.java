@@ -14,23 +14,23 @@ import edu.ncsu.csc216.requirements_manager.model.command.Command;
 public class UserStory {
 
 	/** A constant string for the submitted state’s name **/
-	public static final String SUBMITTED_NAME = "submitted";
+	public static final String SUBMITTED_NAME = "Submitted";
 	/** A constant string for the backlog state’s name **/
-	public static final String BACKLOG_NAME = "backlog";
+	public static final String BACKLOG_NAME = "Backlog";
 	/** A constant string for the working state’s name **/
-	public static final String WORKING_NAME = "working";
+	public static final String WORKING_NAME = "Working";
 	/** A constant string for the verifying state’s name **/
-	public static final String VERIFYING_NAME = "verifying";
+	public static final String VERIFYING_NAME = "Verifying";
 	/** A constant string for the completed state’s name **/
-	public static final String COMPLETED_NAME = "completed";
+	public static final String COMPLETED_NAME = "Completed";
 	/** A constant string for the rejected state’s name **/
-	public static final String REJECTED_NAME = "rejected";
+	public static final String REJECTED_NAME = "Rejected";
 	/** A constant string for the priority of “High”. **/
-	public static final String HIGH_PRIORITY = "high";
+	public static final String HIGH_PRIORITY = "High";
 	/** A constant string for the priority of “Medium”. **/
-	public static final String MEDIUM_PRIORITY = "medium";
+	public static final String MEDIUM_PRIORITY = "Medium";
 	/** A constant string for the priority of “Low”. **/
-	public static final String LOW_PRIORITY = "low";
+	public static final String LOW_PRIORITY = "Low";
 	/** A constant string for the rejection reason of “Duplicate”. **/
 	public static final String DUPLICATE_REJECTION = "Duplicate";
 	/** A constant string for the rejection reason of “Inappropriate”. **/
@@ -59,7 +59,6 @@ public class UserStory {
 	/** The user story’s rejection reason **/
 	private String rejectionReason;
 
-
 	public final UserStoryState submittedState = new SubmittedState();
 
 	public final UserStoryState backlogState = new BacklogState();
@@ -71,9 +70,8 @@ public class UserStory {
 	public final UserStoryState completedState = new CompletedState();
 
 	public final UserStoryState rejectedState = new RejectedState();
-	
-	public UserStoryState currentState = submittedState;
 
+	public UserStoryState currentState = submittedState;
 
 	/**
 	 * Constructs a UserStory from the provided parameters. The storyId field is set
@@ -88,7 +86,7 @@ public class UserStory {
 	 * 
 	 */
 	public UserStory(String title, String user, String action, String value) {
-		
+
 		storyId = counter;
 		incrementCounter();
 
@@ -291,10 +289,15 @@ public class UserStory {
 	 * @throws IllegalArgumentException if priority is not low, medium, or high
 	 */
 	public void setPriority(String priority) {
-		if (priority != HIGH_PRIORITY && priority != MEDIUM_PRIORITY && priority != LOW_PRIORITY) {
+//		if (((currentState == backlogState || currentState == workingState || currentState == verifyingState || currentState == completedState) && (priority != HIGH_PRIORITY && priority != MEDIUM_PRIORITY && priority != LOW_PRIORITY))|| ((currentState == submittedState || currentState == rejectedState) && priority != null)) {
+//			throw new IllegalArgumentException("Invalid priority");
+//		}
+		if (priority == null || (priority.equals(HIGH_PRIORITY) || priority.equals(MEDIUM_PRIORITY)
+				|| priority.equals(LOW_PRIORITY))) {
+			this.priority = priority;
+		} else {
 			throw new IllegalArgumentException("Invalid priority");
 		}
-		this.priority = priority;
 	}
 
 	/**
@@ -313,10 +316,11 @@ public class UserStory {
 	 * @throws IllegalArgumentException if developer id is null of length 0
 	 */
 	public void setDeveloperId(String developerId) {
-		if (developerId == null || developerId.length() == 0) {
+		if (developerId == null || developerId.length() != 0) {
+			this.developerId = developerId;
+		} else {
 			throw new IllegalArgumentException("Invalid developer id");
 		}
-		this.developerId = developerId;
 	}
 
 	/**
@@ -336,11 +340,13 @@ public class UserStory {
 	 *                                  inappropriate, or infeasible
 	 */
 	public void setRejectionReason(String rejectionReason) {
-		if (rejectionReason != DUPLICATE_REJECTION && rejectionReason != INAPPROPRIATE_REJECTION
-				&& rejectionReason != INFEASIBLE_REJECTION) {
+		if (rejectionReason == null || (rejectionReason.equals(DUPLICATE_REJECTION)
+				|| rejectionReason.equals(INAPPROPRIATE_REJECTION) || rejectionReason.equals(INFEASIBLE_REJECTION))) {
+			this.rejectionReason = rejectionReason;
+		}
+		else {
 			throw new IllegalArgumentException("Invalid rejection reason");
 		}
-		this.rejectionReason = rejectionReason;
 	}
 
 	/**
@@ -587,8 +593,7 @@ public class UserStory {
 			// add code here
 			if (command.getCommand() == Command.CommandValue.REOPEN) {
 				currentState = workingState;
-			}
-			else if (command.getCommand() == Command.CommandValue.CONFIRM) {
+			} else if (command.getCommand() == Command.CommandValue.CONFIRM) {
 				currentState = completedState;
 			} else {
 				throw new UnsupportedOperationException("Invalid command for user story state");
@@ -629,8 +634,7 @@ public class UserStory {
 			// add code here
 			if (command.getCommand() == Command.CommandValue.REOPEN) {
 				currentState = workingState;
-			}
-			else {
+			} else {
 				throw new UnsupportedOperationException("Invalid command for user story state");
 			}
 		}
@@ -668,8 +672,7 @@ public class UserStory {
 			// add code here
 			if (command.getCommand() == Command.CommandValue.RESUBMIT) {
 				currentState = submittedState;
-			}
-			else {
+			} else {
 				throw new UnsupportedOperationException("Invalid command for user story state");
 			}
 		}

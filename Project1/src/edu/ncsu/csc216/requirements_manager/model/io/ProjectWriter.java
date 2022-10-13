@@ -3,6 +3,10 @@
  */
 package edu.ncsu.csc216.requirements_manager.model.io;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintStream;
+
 import edu.ncsu.csc216.requirements_manager.model.manager.Project;
 
 /**
@@ -19,11 +23,17 @@ public class ProjectWriter {
 	 * 
 	 * @param filename name of the file to write to
 	 * @param project  the project to write to the file
+	 * @throws IOException 
 	 * @throws IllegalArgumentException if there are any errors or exception in
 	 *                                  writing to and saving the file
 	 */
-	public static void writeProjectToFile(String filename, Project project) {
+	public static void writeProjectToFile(String filename, Project project) throws IOException {
 		// add code here
+		
+		PrintStream fileWriter = new PrintStream(new File(filename)); 
+		
+		
+
 	}
 
 }

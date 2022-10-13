@@ -161,7 +161,7 @@ class ProjectTest {
 		p.addUserStory("title2", "student", "action", "value");
 		p.addUserStory("title3", "student", "action", "value");
 		
-		p.executeCommand(0, new Command(Command.CommandValue.BACKLOG, "low"));
+		p.executeCommand(0, new Command(Command.CommandValue.BACKLOG, "Low"));
 		assertTrue(p.getUserStories().get(0).currentState == p.getUserStories().get(0).backlogState);
 		
 		p.executeCommand(1, new Command(Command.CommandValue.REJECT, "Duplicate"));
@@ -170,7 +170,7 @@ class ProjectTest {
 		p.executeCommand(1, new Command(Command.CommandValue.RESUBMIT, null));
 		assertTrue(p.getUserStories().get(1).currentState == p.getUserStories().get(1).submittedState);
 		
-		p.executeCommand(2, new Command(Command.CommandValue.BACKLOG, "low"));
+		p.executeCommand(2, new Command(Command.CommandValue.BACKLOG, "Low"));
 		assertTrue(p.getUserStories().get(2).currentState == p.getUserStories().get(2).backlogState);
 		
 		p.executeCommand(2, new Command(Command.CommandValue.ASSIGN, "jyu34"));
