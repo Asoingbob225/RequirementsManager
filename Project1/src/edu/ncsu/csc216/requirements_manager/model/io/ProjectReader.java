@@ -71,7 +71,7 @@ public class ProjectReader {
 	/**
 	 * Processes the projects read from the file based on the project name
 	 * 
-	 * @param projectname name of the project
+	 * @param line project string
 	 * @return project the processed project
 	 */
 	private static Project processProject(String line) {
@@ -83,7 +83,6 @@ public class ProjectReader {
 
 		while (n.hasNext()) {
 			project.addUserStory(processUserStory(n.next()));
-
 		}
 
 		n.close();
@@ -94,8 +93,8 @@ public class ProjectReader {
 	/**
 	 * Processes the user stories read from the file based on the story's title
 	 * 
-	 * @param title story's title
-	 * @return userStory the processed UserStory
+	 * @param string UserStory string
+	 * @return story the processed UserStory
 	 */
 	private static UserStory processUserStory(String line) {
 
