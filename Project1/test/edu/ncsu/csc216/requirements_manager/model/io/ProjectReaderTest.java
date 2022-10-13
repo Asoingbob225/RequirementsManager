@@ -21,6 +21,8 @@ import edu.ncsu.csc216.requirements_manager.model.manager.Project;
 class ProjectReaderTest {
 	
 	private final String validTestFile = "test-files/project1.txt";
+	private final String invalidTestFile = "test-files/fakeproject1.txt";
+
 
 	/**
 	 * Test method for
@@ -40,6 +42,9 @@ class ProjectReaderTest {
 		} catch(FileNotFoundException e) {
 			fail("Unexpected Failure reading " + validTestFile);
 		}
+		
+		assertThrows(IllegalArgumentException.class, () -> ProjectReader.readProjectFile(invalidTestFile));
+
 				
 
 				

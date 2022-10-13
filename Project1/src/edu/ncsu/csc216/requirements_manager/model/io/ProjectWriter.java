@@ -31,8 +31,13 @@ public class ProjectWriter {
 		// add code here
 		
 		PrintStream fileWriter = new PrintStream(new File(filename)); 
+		fileWriter.println("# " + project.getProjectName());
 		
-		
+		for (int i = 0; i < project.getUserStories().size(); i++) {
+			fileWriter.println(project.getUserStories().get(i).toString());
+		}
+
+		fileWriter.close();
 
 	}
 
