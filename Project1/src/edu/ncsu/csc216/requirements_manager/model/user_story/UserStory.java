@@ -101,6 +101,10 @@ public class UserStory {
 
 		setState(SUBMITTED_NAME);
 		currentState = this.state;
+		
+		setPriority(null);
+		setDeveloperId(null);
+		setRejectionReason(null);
 
 	}
 
