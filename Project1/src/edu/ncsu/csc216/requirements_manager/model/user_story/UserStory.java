@@ -99,7 +99,7 @@ public class UserStory {
 		setAction(action);
 		setValue(value);
 
-		setState(SUBMITTED_NAME);
+		this.state = this.submittedState;
 		currentState = this.state;
 		
 		setPriority(null);
