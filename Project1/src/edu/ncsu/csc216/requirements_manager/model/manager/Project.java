@@ -66,13 +66,20 @@ public class Project {
 	 */
 	public void setUserStoryId() {
 		// add code here
-		int maxId = 0;
-		for (int i = 1; i < userStories.size(); i++) {
-			if (userStories.get(i).getId() > userStories.get(i - 1).getId()) {
-				maxId = userStories.get(i).getId();
+		int maxId;
+		
+		if (userStories.size() == 0) {
+			maxId = -1;
+		}
+		else {
+			maxId = userStories.get(0).getId();
+			for (int i = 0; i < userStories.size(); i++) {
+				if (userStories.get(i).getId() > maxId) {
+					maxId = userStories.get(i).getId();
+				}
 			}
 		}
-		UserStory.setCounter(maxId);
+		UserStory.setCounter(maxId + 1);
 	}
 
 	/**
@@ -91,27 +98,29 @@ public class Project {
 	public int addUserStory(String title, String user, String action, String value) {
 		UserStory u = new UserStory(title, user, action, value);
 		
-		for (int i = 0; i < userStories.size(); i++) {
-			if (u.getId() == userStories.get(i).getId()) {
-				throw new IllegalArgumentException("Story with id already exists");
-			}
-		}
+
 		
 		if (userStories.size() == 0) {
 			userStories.add(u);
 		}
-		else if (u.getId() < userStories.get(0).getId()) {
-			userStories.add(0, u);
-		}
+		
 		else if (u.getId() > userStories.get(userStories.size() - 1).getId()) {
 			userStories.add(u);
 		}
+		
 		else {
-			for (int i = 1; i < userStories.size() - 1; i++) {
-				if (u.getId() > userStories.get(i - 1).getId() && u.getId() < userStories.get(i + 1).getId()) {
-					userStories.add(i, u);
+			for (int i = 0; i < userStories.size(); i++) {
+				if (u.getId() == userStories.get(i).getId()) {
+					throw new IllegalArgumentException("Story with id already exists");
 				}
 			}
+			for (int i = 1; i < userStories.size(); i++) {
+				if (u.getId() < userStories.get(i).getId()) {
+					userStories.add(i, u);
+					break;
+				}
+			}
+			
 		}
 		return u.getId();
 	}
@@ -127,13 +136,28 @@ public class Project {
 	 *                                  the given id
 	 */
 	public void addUserStory(UserStory story) {
-		for (int i = 0; i < userStories.size(); i++) {
-			if (story.getId() == userStories.get(i).getId()) {
-				throw new IllegalArgumentException("Story with id already exists");
-			}
+		
+		if (userStories.size() == 0) {
+			userStories.add(story);
 		}
 		
-		userStories.add(story);
+		else if (story.getId() > userStories.get(userStories.size() - 1).getId()) {
+			userStories.add(story);
+		}
+		
+		else {
+			for (int i = 0; i < userStories.size(); i++) {
+				if (story.getId() == userStories.get(i).getId()) {
+					throw new IllegalArgumentException("Story with id already exists");
+				}
+			}
+			for (int i = 1; i < userStories.size(); i++) {
+				if (story.getId() < userStories.get(i).getId()) {
+					userStories.add(i, story);
+					break;
+				}
+			}
+		}
 	}
 
 	/**

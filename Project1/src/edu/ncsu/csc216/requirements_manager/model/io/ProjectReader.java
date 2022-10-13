@@ -76,7 +76,7 @@ public class ProjectReader {
 	private static Project processProject(String line) {
 		Scanner n = new Scanner(line);
 		String projectName = n.nextLine().trim();
-		System.out.println(projectName);
+		//System.out.println(projectName);
 		Project project = new Project(projectName);
 		n.useDelimiter("\\r?\\n?[*]");
 
@@ -138,15 +138,15 @@ public class ProjectReader {
 		action = n.next().trim();
 		value = n.next().trim();
 
-		System.out.println(id);
-		System.out.println(state);
-		System.out.println(title);
-		System.out.println(priority);
-		System.out.println(devId);
-		System.out.println(reject);
-		System.out.println(user);
-		System.out.println(action);
-		System.out.println(value);
+//		System.out.println(id);
+//		System.out.println(state);
+//		System.out.println(title);
+//		System.out.println(priority);
+//		System.out.println(devId);
+//		System.out.println(reject);
+//		System.out.println(user);
+//		System.out.println(action);
+//		System.out.println(value);
 
 		UserStory story = new UserStory(Integer.parseInt(id), state, title, priority, devId, reject, user, action,
 				value);

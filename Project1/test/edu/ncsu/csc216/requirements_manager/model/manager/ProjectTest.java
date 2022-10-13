@@ -17,6 +17,9 @@ import edu.ncsu.csc216.requirements_manager.model.user_story.UserStory;
  */
 class ProjectTest {
 	
+	
+
+	
 	/**
 	 * Resets counter to 0 for use in other tests.
 	 * 
@@ -27,10 +30,7 @@ class ProjectTest {
 		// Reset the counter to 0 at the beginning of every test.
 		UserStory.setCounter(0);
 		
-//		//Stories used for testing
-//		UserStory u1 = new UserStory(5, "Working", "title1", "student", "action", "value", "High", "jyu34", null);
-//		UserStory u2 = new UserStory(2, "Submitted", "title2", "student", "action", "value", null, null, null);
-//		UserStory u3 = new UserStory(4, "Backlog", "title3", "student", "action", "value", "Medium", null, null);
+
 
 	}
 
@@ -55,28 +55,30 @@ class ProjectTest {
 
 
 
-	/**
+	/*
 	 * Test method for {@link edu.ncsu.csc216.requirements_manager.model.manager.Project#setUserStoryId()}.
 	 */
 	@Test
 	void testSetUserStoryId() {
-		//fail("Not yet implemented");
+		//Stories used for testing
+		UserStory u1 = new UserStory(5, "Working", "title1", "student", "action", "value", "High", "jyu34", null);
+		UserStory u2 = new UserStory(2, "Submitted", "title2", "student", "action", "value", null, null, null);
+		UserStory u3 = new UserStory(4, "Backlog", "title3", "student", "action", "value", "Medium", null, null);
+		
 		Project p = new Project("New Project");
-		p.addUserStory("title1", "student", "action", "value");
-		p.addUserStory("title2", "student", "action", "value");
-		p.addUserStory("title3", "student", "action", "value");
+		p.addUserStory(u2);
+		assertEquals(1, p.getUserStories().size());
+		p.setUserStoryId();
+		assertEquals(3, UserStory.counter);
 		
-		int counter = 0;
-		int maxId = 0;
-		for (int i = 1; i < p.getUserStories().size(); i++) {
-			if (p.getUserStories().get(i).getId() > p.getUserStories().get(i - 1).getId()) {
-				maxId = p.getUserStories().get(i).getId();
-			}
-		}
+		p.addUserStory(u1);
+		p.setUserStoryId();
+		assertEquals(6, UserStory.counter);
 		
-		counter = maxId + 1;
+		p.addUserStory(u3);
+		p.setUserStoryId();
+		assertEquals(6, UserStory.counter);
 		
-		assertEquals(3, counter);
 	}
 
 	/**
@@ -84,11 +86,28 @@ class ProjectTest {
 	 */
 	@Test
 	void testAddUserStoryStringStringStringString() {
-		//fail("Not yet implemented");
+		
 		Project p = new Project("New Project");
-		assertEquals(0, p.addUserStory("title1", "student", "action", "value"));
-		assertEquals(1, p.addUserStory("title2", "student", "action", "value"));
-		assertEquals(2, p.addUserStory("title3", "student", "action", "value"));
+		
+		p.addUserStory("title1", "student", "action", "value");
+		assertEquals(1, p.getUserStories().size());
+		assertEquals(0, p.getUserStories().get(0).getId());
+		
+		UserStory.setCounter(5);
+		
+		p.addUserStory("title2", "student", "action", "value");
+		assertEquals(2, p.getUserStories().size());
+		assertEquals(5, p.getUserStories().get(1).getId());
+		
+		UserStory.setCounter(2);
+		
+		p.addUserStory("title3", "student", "action", "value");
+		assertEquals(3, p.getUserStories().size());
+		assertEquals(2, p.getUserStories().get(1).getId());
+		assertEquals(5, p.getUserStories().get(2).getId());
+		
+		UserStory.setCounter(0);
+		assertThrows(IllegalArgumentException.class, () -> p.addUserStory("title1", "student", "action", "value"));
 
 	}
 
@@ -97,24 +116,31 @@ class ProjectTest {
 	 */
 	@Test
 	void testAddUserStoryUserStory() {
-		//fail("Not yet implemented");
-		UserStory u1 = new UserStory("title1", "student", "action", "value");
-		UserStory u2 = new UserStory("title2", "student", "action", "value");
-		UserStory u3 = new UserStory("title3", "student", "action", "value");
+		//Stories used for testing
+		UserStory u1 = new UserStory(5, "Working", "title1", "student", "action", "value", "High", "jyu34", null);
+		UserStory u2 = new UserStory(2, "Submitted", "title2", "student", "action", "value", null, null, null);
+		UserStory u3 = new UserStory(4, "Backlog", "title3", "student", "action", "value", "Medium", null, null);
 		
 		Project p = new Project("New Project");
+		
 		p.addUserStory(u1);
+		assertEquals(1, p.getUserStories().size());
+		assertEquals(5, p.getUserStories().get(0).getId());
+		
 		p.addUserStory(u2);
+		assertEquals(2, p.getUserStories().size());
+		assertEquals(2, p.getUserStories().get(0).getId());
+				
 		p.addUserStory(u3);
+		assertEquals(3, p.getUserStories().size());
+		assertEquals(2, p.getUserStories().get(0).getId());
+		assertEquals(4, p.getUserStories().get(1).getId());
+		assertEquals(5, p.getUserStories().get(2).getId());
 		
-		assertEquals(0, u1.getId());
-		assertEquals(1, u2.getId());
-		assertEquals(2, u3.getId());
 		
-		UserStory u4 = new UserStory("title4", "student", "action", "value");
-		u4.setId(2);
-		Exception e1 = assertThrows(IllegalArgumentException.class, () -> p.addUserStory(u4));
-		assertEquals("Story with id already exists", e1.getMessage());
+		assertThrows(IllegalArgumentException.class, () -> p.addUserStory(u1));
+		
+
 		
 	}
 

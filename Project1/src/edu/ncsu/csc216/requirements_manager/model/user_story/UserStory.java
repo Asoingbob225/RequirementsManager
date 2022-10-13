@@ -39,7 +39,7 @@ public class UserStory {
 	public static final String INFEASIBLE_REJECTION = "Infeasible";
 
 	/** static field for counter used to create storyId **/
-	private static int counter = 0;
+	public static int counter = 0;
 	/** Unique id for an user story */
 	private int storyId;
 	/** Current state for the user story of type UserStoryState */
@@ -71,7 +71,7 @@ public class UserStory {
 
 	public final UserStoryState rejectedState = new RejectedState();
 
-	public UserStoryState currentState = submittedState;
+	public UserStoryState currentState;
 
 	/**
 	 * Constructs a UserStory from the provided parameters. The storyId field is set
@@ -95,7 +95,8 @@ public class UserStory {
 		setAction(action);
 		setValue(value);
 
-		setState(currentState.getStateName());
+		setState(SUBMITTED_NAME);
+		currentState = this.state;
 
 	}
 
@@ -120,13 +121,10 @@ public class UserStory {
 	 */
 	public UserStory(int storyId, String state, String title, String user, String action, String value, String priority,
 			String developerId, String rejectionReason) {
-
-		if (storyId > counter) {
-			setCounter(storyId + 1);
-		}
-
+		
 		setId(storyId);
 		setState(state);
+		currentState = this.state;
 		setTitle(title);
 		setUser(user);
 		setAction(action);
@@ -134,6 +132,11 @@ public class UserStory {
 		setPriority(priority);
 		setDeveloperId(developerId);
 		setRejectionReason(rejectionReason);
+		
+		if (storyId > counter) {
+			setCounter(storyId + 1);
+		}
+
 
 	}
 
@@ -175,12 +178,6 @@ public class UserStory {
 	 * @throws IllegalArgumentException if state is null or length 0
 	 */
 	public void setState(String state) {
-//		if (state != submittedState.getStateName() && state != backlogState.getStateName()
-//				&& state != workingState.getStateName() && state != verifyingState.getStateName()
-//				&& state != completedState.getStateName() && state != rejectedState.getStateName()) {
-//			throw new IllegalArgumentException("Invalid state");
-//		}
-//		this.state = state;
 
 		if (state == null) {
 			throw new IllegalArgumentException("Invalid state");
@@ -341,8 +338,8 @@ public class UserStory {
 	 */
 	public void setDeveloperId(String developerId) {
 
-		if (state.getStateName().equals(WORKING_NAME) || state.getStateName().equals(VERIFYING_NAME)
-				|| state.getStateName().equals(COMPLETED_NAME) && developerId == null) {
+		if ((state.getStateName().equals(WORKING_NAME) || state.getStateName().equals(VERIFYING_NAME)
+				|| state.getStateName().equals(COMPLETED_NAME)) && developerId == null) {
 			throw new IllegalArgumentException("Invalid developer id");
 		}
 		if ((state.getStateName().equals(SUBMITTED_NAME) || state.getStateName().equals(BACKLOG_NAME)
@@ -397,7 +394,7 @@ public class UserStory {
 	 * @param counter value used to assign a storyId
 	 */
 	public static void setCounter(int id) {
-		counter = id;
+		UserStory.counter = id;
 	}
 
 	/**
@@ -489,6 +486,7 @@ public class UserStory {
 		 * @throws UnsupportedOperationException if the Command is not a valid action
 		 *                                       for the given state.
 		 */
+		@Override
 		public void updateState(Command command) {
 			// add code here
 			if (command.getCommand() == Command.CommandValue.BACKLOG) {
@@ -510,6 +508,7 @@ public class UserStory {
 		 * 
 		 * @return the name of the current state as a String.
 		 */
+		@Override
 		public String getStateName() {
 			return SUBMITTED_NAME;
 		}
@@ -534,6 +533,7 @@ public class UserStory {
 		 * @throws UnsupportedOperationException if the Command is not a valid action
 		 *                                       for the given state.
 		 */
+		@Override
 		public void updateState(Command command) {
 			// add code here
 			if (command.getCommand() == Command.CommandValue.ASSIGN) {
@@ -553,6 +553,7 @@ public class UserStory {
 		 * 
 		 * @return the name of the current state as a String.
 		 */
+		@Override
 		public String getStateName() {
 			return BACKLOG_NAME;
 		}
@@ -565,6 +566,7 @@ public class UserStory {
 	 * @author yujim
 	 *
 	 */
+	
 	private final class WorkingState implements UserStoryState {
 
 		/**
@@ -577,6 +579,7 @@ public class UserStory {
 		 * @throws UnsupportedOperationException if the Command is not a valid action
 		 *                                       for the given state.
 		 */
+		@Override
 		public void updateState(Command command) {
 			// add code here
 			if (command.getCommand() == Command.CommandValue.ASSIGN) {
@@ -599,6 +602,7 @@ public class UserStory {
 		 * 
 		 * @return the name of the current state as a String.
 		 */
+		@Override
 		public String getStateName() {
 			return WORKING_NAME;
 		}
@@ -624,6 +628,7 @@ public class UserStory {
 		 * @throws UnsupportedOperationException if the Command is not a valid action
 		 *                                       for the given state.
 		 */
+		@Override
 		public void updateState(Command command) {
 			// add code here
 			if (command.getCommand() == Command.CommandValue.REOPEN) {
@@ -641,6 +646,7 @@ public class UserStory {
 		 * 
 		 * @return the name of the current state as a String.
 		 */
+		@Override
 		public String getStateName() {
 			return VERIFYING_NAME;
 		}
@@ -665,6 +671,7 @@ public class UserStory {
 		 * @throws UnsupportedOperationException if the Command is not a valid action
 		 *                                       for the given state.
 		 */
+		@Override
 		public void updateState(Command command) {
 			// add code here
 			if (command.getCommand() == Command.CommandValue.REOPEN) {
@@ -679,6 +686,7 @@ public class UserStory {
 		 * 
 		 * @return the name of the current state as a String.
 		 */
+		@Override
 		public String getStateName() {
 			return COMPLETED_NAME;
 		}
@@ -703,6 +711,7 @@ public class UserStory {
 		 * @throws UnsupportedOperationException if the Command is not a valid action
 		 *                                       for the given state.
 		 */
+		@Override
 		public void updateState(Command command) {
 			// add code here
 			if (command.getCommand() == Command.CommandValue.RESUBMIT) {
@@ -717,6 +726,7 @@ public class UserStory {
 		 * 
 		 * @return the name of the current state as a String.
 		 */
+		@Override
 		public String getStateName() {
 			return REJECTED_NAME;
 		}
