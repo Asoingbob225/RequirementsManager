@@ -103,7 +103,7 @@ public class RequirementsManager {
 			throw new IllegalArgumentException("Invalid project name");
 		}
 		for (int i = 0; i < projects.size(); i++) {
-			if (projects.get(i).getProjectName() == projectname) {
+			if (projects.get(i).getProjectName().toLowerCase().equals(projectname.toLowerCase())) {
 				throw new IllegalArgumentException("Invalid project name");
 			}
 		}
