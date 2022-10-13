@@ -54,13 +54,15 @@ public class ProjectReader {
 		Scanner n = new Scanner(fileString);
 		n.useDelimiter("\\r?\\n?[#]");
 
-		try {
-			while (n.hasNext()) {
-
-				projects.add(processProject(n.next()));
+		while (n.hasNext()) {
+			try {	
+				Project j = processProject(n.next());
+				projects.add(j);
 			}
-		} catch (Exception e) {
-			n.close();
+			catch (Exception e) {
+			}
+
+			
 		}
 
 		n.close();

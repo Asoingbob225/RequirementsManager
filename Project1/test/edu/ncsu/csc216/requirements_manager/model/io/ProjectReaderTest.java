@@ -10,10 +10,8 @@ import java.util.ArrayList;
 
 import org.junit.jupiter.api.Test;
 
-import edu.ncsu.csc216.pack_scheduler.io.StudentRecordIO;
-import edu.ncsu.csc216.pack_scheduler.user.Student;
+
 import edu.ncsu.csc216.requirements_manager.model.manager.Project;
-import edu.ncsu.csc217.collections.list.SortedList;
 
 
 /**

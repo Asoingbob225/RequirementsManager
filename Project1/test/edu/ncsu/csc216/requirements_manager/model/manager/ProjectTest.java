@@ -26,6 +26,12 @@ class ProjectTest {
 	public void setUp() throws Exception {
 		// Reset the counter to 0 at the beginning of every test.
 		UserStory.setCounter(0);
+		
+//		//Stories used for testing
+//		UserStory u1 = new UserStory(5, "Working", "title1", "student", "action", "value", "High", "jyu34", null);
+//		UserStory u2 = new UserStory(2, "Submitted", "title2", "student", "action", "value", null, null, null);
+//		UserStory u3 = new UserStory(4, "Backlog", "title3", "student", "action", "value", "Medium", null, null);
+
 	}
 
 

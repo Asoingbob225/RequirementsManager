@@ -122,46 +122,46 @@ class UserStoryTest {
 
 		// Submitted State
 		assertThrows(IllegalArgumentException.class,
-				() -> new UserStory(1, "Submitted", TITLE, USER, ACTION, VALUE, PRIORITY, null, null));
+				() -> new UserStory(ID, "Submitted", TITLE, USER, ACTION, VALUE, PRIORITY, null, null));
 		assertThrows(IllegalArgumentException.class,
-				() -> new UserStory(1, "Submitted", TITLE, USER, ACTION, VALUE, null, DEVID, null));
+				() -> new UserStory(ID, "Submitted", TITLE, USER, ACTION, VALUE, null, DEVID, null));
 		assertThrows(IllegalArgumentException.class,
-				() -> new UserStory(1, "Submitted", TITLE, USER, ACTION, VALUE, null, null, REJECTREASON));
+				() -> new UserStory(ID, "Submitted", TITLE, USER, ACTION, VALUE, null, null, REJECTREASON));
 		// Backlog State
 		assertThrows(IllegalArgumentException.class,
-				() -> new UserStory(1, "Backlog", TITLE, USER, ACTION, VALUE, null, null, null));
+				() -> new UserStory(ID, STATE, TITLE, USER, ACTION, VALUE, null, null, null));
 		assertThrows(IllegalArgumentException.class,
-				() -> new UserStory(1, "Backlog", TITLE, USER, ACTION, VALUE, PRIORITY, DEVID, null));
+				() -> new UserStory(ID, STATE, TITLE, USER, ACTION, VALUE, PRIORITY, DEVID, null));
 		assertThrows(IllegalArgumentException.class,
-				() -> new UserStory(1, "Backlog", TITLE, USER, ACTION, VALUE, PRIORITY, null, REJECTREASON));
+				() -> new UserStory(ID, STATE, TITLE, USER, ACTION, VALUE, PRIORITY, null, REJECTREASON));
 		// Working State
 		assertThrows(IllegalArgumentException.class,
-				() -> new UserStory(1, "Working", TITLE, USER, ACTION, VALUE, null, DEVID, null));
+				() -> new UserStory(ID, "Working", TITLE, USER, ACTION, VALUE, null, DEVID, null));
 		assertThrows(IllegalArgumentException.class,
-				() -> new UserStory(1, "Working", TITLE, USER, ACTION, VALUE, PRIORITY, null, null));
+				() -> new UserStory(ID, "Working", TITLE, USER, ACTION, VALUE, PRIORITY, null, null));
 		assertThrows(IllegalArgumentException.class,
-				() -> new UserStory(1, "Working", TITLE, USER, ACTION, VALUE, PRIORITY, DEVID, REJECTREASON));
+				() -> new UserStory(ID, "Working", TITLE, USER, ACTION, VALUE, PRIORITY, DEVID, REJECTREASON));
 		// Verifying State
 		assertThrows(IllegalArgumentException.class,
-				() -> new UserStory(1, "Verifying", TITLE, USER, ACTION, VALUE, null, DEVID, null));
+				() -> new UserStory(ID, "Verifying", TITLE, USER, ACTION, VALUE, null, DEVID, null));
 		assertThrows(IllegalArgumentException.class,
-				() -> new UserStory(1, "Verifying", TITLE, USER, ACTION, VALUE, PRIORITY, null, null));
+				() -> new UserStory(ID, "Verifying", TITLE, USER, ACTION, VALUE, PRIORITY, null, null));
 		assertThrows(IllegalArgumentException.class,
-				() -> new UserStory(1, "Verifying", TITLE, USER, ACTION, VALUE, PRIORITY, DEVID, REJECTREASON));
+				() -> new UserStory(ID, "Verifying", TITLE, USER, ACTION, VALUE, PRIORITY, DEVID, REJECTREASON));
 		// Completed State
 		assertThrows(IllegalArgumentException.class,
-				() -> new UserStory(1, "Completed", TITLE, USER, ACTION, VALUE, null, DEVID, null));
+				() -> new UserStory(ID, "Completed", TITLE, USER, ACTION, VALUE, null, DEVID, null));
 		assertThrows(IllegalArgumentException.class,
-				() -> new UserStory(1, "Completed", TITLE, USER, ACTION, VALUE, PRIORITY, null, null));
+				() -> new UserStory(ID, "Completed", TITLE, USER, ACTION, VALUE, PRIORITY, null, null));
 		assertThrows(IllegalArgumentException.class,
-				() -> new UserStory(1, "Completed", TITLE, USER, ACTION, VALUE, PRIORITY, DEVID, REJECTREASON));
+				() -> new UserStory(ID, "Completed", TITLE, USER, ACTION, VALUE, PRIORITY, DEVID, REJECTREASON));
 		// Rejected State
 		assertThrows(IllegalArgumentException.class,
-				() -> new UserStory(1, "Rejected", TITLE, USER, ACTION, VALUE, PRIORITY, null, REJECTREASON));
+				() -> new UserStory(ID, "Rejected", TITLE, USER, ACTION, VALUE, PRIORITY, null, REJECTREASON));
 		assertThrows(IllegalArgumentException.class,
-				() -> new UserStory(1, "Rejected", TITLE, USER, ACTION, VALUE, null, DEVID, REJECTREASON));
+				() -> new UserStory(ID, "Rejected", TITLE, USER, ACTION, VALUE, null, DEVID, REJECTREASON));
 		assertThrows(IllegalArgumentException.class,
-				() -> new UserStory(1, "Rejected", TITLE, USER, ACTION, VALUE, null, null, null));
+				() -> new UserStory(ID, "Rejected", TITLE, USER, ACTION, VALUE, null, null, null));
 
 	}
 
