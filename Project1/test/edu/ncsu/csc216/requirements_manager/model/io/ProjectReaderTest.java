@@ -39,7 +39,7 @@ class ProjectReaderTest {
 
 		assertThrows(IllegalArgumentException.class, () -> ProjectReader.readProjectFile(invalidTestFile));
 		
-		ArrayList<Project> p = ProjectReader.readProjectFile("test-files/project4.txt");
+		ArrayList<Project> p = ProjectReader.readProjectFile("test-files/project5.txt");
 		assertEquals(0, p.size());
 
 
