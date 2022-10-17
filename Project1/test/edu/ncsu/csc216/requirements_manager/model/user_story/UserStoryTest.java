@@ -355,7 +355,7 @@ class UserStoryTest {
 	void testToString() {
 		// fail("Not yet implemented");
 		UserStory u = new UserStory(ID, STATE, TITLE, USER, ACTION, VALUE, PRIORITY, null, null);
-		String s = "* 0,Backlog,Add Event,Medium\n- student\n- action\n- value";
+		String s = "* 0,Backlog,Add Event,Medium,\n- student\n- action\n- value";
 		assertEquals(s, u.toString());
 	}
 

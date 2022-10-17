@@ -408,16 +408,16 @@ public class UserStory {
 	 */
 	public String toString() {
 
-		String string = "* " + storyId + "," + state.getStateName() + "," + title;
+		String string = "* " + storyId + "," + state.getStateName() + "," + title + ",";
 
 		if (priority != null) {
-			string += "," + priority;
+			string += priority + ",";
 		}
 		if (developerId != null) {
-			string += "," + developerId;
+			string += developerId + ",";
 		}
 		if (rejectionReason != null) {
-			string += "," + rejectionReason;
+			string += rejectionReason + ",";
 		}
 		string += "\n" + "- " + user + "\n" + "- " + action + "\n" + "- " + value;
 

@@ -1,13 +1,13 @@
 # New Project
-* 0,Working,title1,High,jyu34
+* 0,Working,title1,High,jyu34,
 - student
 - action
 - value
-* 1,Submitted,title2
+* 1,Submitted,title2,
 - student
 - action
 - value
-* 2,Backlog,title3,Medium
+* 2,Backlog,title3,Medium,
 - student
 - action
 - value

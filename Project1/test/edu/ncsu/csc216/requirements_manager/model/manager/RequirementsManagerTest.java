@@ -27,17 +27,17 @@ class RequirementsManagerTest {
 	private final String validTestFile = "test-files/project1.txt";
 
 	/** String version of user story 1 **/
-	public final String u1 = "* 0,Completed,Load Catalog,High,sesmith5\n- student\n- load a course catalog file\n- plan a schedule for next semester";
+	public final String u1 = "* 0,Completed,Load Catalog,High,sesmith5,\n- student\n- load a course catalog file\n- plan a schedule for next semester";
 	/** String version of user story 2 **/
-	public final String u2 = "* 1,Verifying,Select Course,Medium,jctetter\n- student\n- select a course to add to my schedule\n- plan a schedule for next semester";
+	public final String u2 = "* 1,Verifying,Select Course,Medium,jctetter,\n- student\n- select a course to add to my schedule\n- plan a schedule for next semester";
 	/** String version of user story 3 **/
-	public final String u3 = "* 2,Working,Add Event,Medium,ignacioxd\n- student\n- add a recurring event\n- schedule extra curricular activities";
+	public final String u3 = "* 2,Working,Add Event,Medium,ignacioxd,\n- student\n- add a recurring event\n- schedule extra curricular activities";
 	/** String version of user story 4 **/
-	public final String u4 = "* 3,Backlog,Export Schedule,Low\n- student\n- export my schedule\n- so it's available when I register for classes";
+	public final String u4 = "* 3,Backlog,Export Schedule,Low,\n- student\n- export my schedule\n- so it's available when I register for classes";
 	/** String version of user story 5 **/
-	public final String u5 = "* 4,Submitted,Change Title\n- student\n- change the title of my schedule\n- so I can have different schedules to consider";
+	public final String u5 = "* 4,Submitted,Change Title,\n- student\n- change the title of my schedule\n- so I can have different schedules to consider";
 	/** String version of user story 6 **/
-	public final String u6 = "* 5,Rejected,Post to Piazza,Inappropriate\n- student\n- post my schedule to Piazza for feedback\n- see which of my friends are interested in taking the same courses";
+	public final String u6 = "* 5,Rejected,Post to Piazza,Inappropriate,\n- student\n- post my schedule to Piazza for feedback\n- see which of my friends are interested in taking the same courses";
 
 	/**
 	 * Resets the singleton for use in other tests.
@@ -191,5 +191,7 @@ class RequirementsManagerTest {
 			fail("Error reading files.");
 		}
 	}
+	
+	
 
 }

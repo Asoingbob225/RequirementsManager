@@ -32,11 +32,11 @@ public class Project {
 	 * 
 	 */
 	public Project(String projectName) {
-		
+
 		if (projectName == null || projectName.length() == 0) {
 			throw new IllegalArgumentException("Invalid project name");
 		}
-		
+
 		userStories = new ArrayList<UserStory>();
 		this.projectName = projectName;
 	}
@@ -59,7 +59,6 @@ public class Project {
 		return userStories;
 	}
 
-
 	/**
 	 * Sets the counter for the UserStory instances to the value of the maximum id
 	 * in the list of UserStorys for the project + 1.
@@ -67,11 +66,10 @@ public class Project {
 	public void setUserStoryId() {
 		// add code here
 		int maxId;
-		
+
 		if (userStories.size() == 0) {
 			maxId = -1;
-		}
-		else {
+		} else {
 			maxId = userStories.get(0).getId();
 			for (int i = 0; i < userStories.size(); i++) {
 				if (userStories.get(i).getId() > maxId) {
@@ -97,15 +95,11 @@ public class Project {
 	 */
 	public int addUserStory(String title, String user, String action, String value) {
 		UserStory u = new UserStory(title, user, action, value);
-		
 
-		
 		if (userStories.size() == 0) {
 			userStories.add(u);
 		}
-		
-//		else 
-		
+
 		else {
 			for (int i = 0; i < userStories.size(); i++) {
 				if (u.getId() == userStories.get(i).getId()) {
@@ -121,7 +115,7 @@ public class Project {
 			if (u.getId() > userStories.get(userStories.size() - 1).getId()) {
 				userStories.add(u);
 			}
-			
+
 		}
 		return u.getId();
 	}
@@ -137,11 +131,11 @@ public class Project {
 	 *                                  the given id
 	 */
 	public void addUserStory(UserStory story) {
-		
+
 		if (userStories.size() == 0) {
 			userStories.add(story);
 		}
-		
+
 		else {
 			for (int i = 0; i < userStories.size(); i++) {
 				if (story.getId() == userStories.get(i).getId()) {
