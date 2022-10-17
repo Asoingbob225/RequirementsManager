@@ -39,8 +39,6 @@ public class ProjectWriter {
 		for (int i = 0; i < project.getUserStories().size(); i++) {
 			fileWriter.println(project.getUserStories().get(i).toString());
 		}
-		
-		fileWriter.println();
 
 		fileWriter.close();
 

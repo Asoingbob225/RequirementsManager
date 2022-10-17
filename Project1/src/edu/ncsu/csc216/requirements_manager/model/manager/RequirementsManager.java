@@ -67,7 +67,6 @@ public class RequirementsManager {
 			throw new IllegalArgumentException("Invalid project");
 		}
 		
-		
 		ProjectWriter.writeProjectToFile(filename, currentProject);
 	}
 
