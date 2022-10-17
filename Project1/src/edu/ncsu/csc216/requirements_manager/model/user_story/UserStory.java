@@ -495,11 +495,15 @@ public class UserStory {
 			// add code here
 			if (command.getCommand() == Command.CommandValue.BACKLOG) {
 				priority = command.getCommandInformation();
+				developerId = null;
+				rejectionReason = null;
 				currentState = backlogState;
 			}
 
 			else if (command.getCommand() == Command.CommandValue.REJECT) {
 				rejectionReason = command.getCommandInformation();
+				priority = null;
+				developerId = null;
 				currentState = rejectedState;
 			} else {
 				throw new UnsupportedOperationException("Invalid command for user story state");
@@ -545,6 +549,8 @@ public class UserStory {
 				currentState = workingState;
 			} else if (command.getCommand() == Command.CommandValue.REJECT) {
 				rejectionReason = command.getCommandInformation();
+				priority = null;
+				developerId = null;
 				currentState = rejectedState;
 			} else {
 				throw new UnsupportedOperationException("Invalid command for user story state");
@@ -591,8 +597,12 @@ public class UserStory {
 				currentState = workingState;
 			} else if (command.getCommand() == Command.CommandValue.REJECT) {
 				rejectionReason = command.getCommandInformation();
+				priority = null;
+				developerId = null;
 				currentState = rejectedState;
 			} else if (command.getCommand() == Command.CommandValue.REOPEN) {
+				developerId = null;
+				rejectionReason = null;
 				currentState = backlogState;
 			} else if (command.getCommand() == Command.CommandValue.REVIEW) {
 				currentState = verifyingState;
@@ -719,6 +729,9 @@ public class UserStory {
 		public void updateState(Command command) {
 			// add code here
 			if (command.getCommand() == Command.CommandValue.RESUBMIT) {
+				priority = null;
+				developerId = null;
+				rejectionReason = null;
 				currentState = submittedState;
 			} else {
 				throw new UnsupportedOperationException("Invalid command for user story state");
