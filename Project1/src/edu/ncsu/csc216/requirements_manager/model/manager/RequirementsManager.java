@@ -214,9 +214,7 @@ public class RequirementsManager {
 	 * @param value  story's value information
 	 */
 	public void addUserStoryToProject(String title, String user, String action, String value) {
-		if (currentProject != null) {
 			currentProject.addUserStory(title, user, action, value);
-		}
 	}
 
 	/**
