@@ -67,7 +67,15 @@ public class RequirementsManager {
 			throw new IllegalArgumentException("Invalid project");
 		}
 		
-		ProjectWriter.writeProjectToFile(filename, currentProject);
+		 System.out.println(projects.size());
+		for (int i = 0; i < projects.size(); i++) {
+			ProjectWriter.writeProjectToFile(filename, projects.get(i));
+		}
+		
+	 System.out.println(projects);
+	 System.out.println(projects.get(0));
+	 System.out.println(projects.get(1));
+	 System.out.println(projects.get(2));
 	}
 
 	/**
@@ -206,7 +214,9 @@ public class RequirementsManager {
 	 * @param value  story's value information
 	 */
 	public void addUserStoryToProject(String title, String user, String action, String value) {
-		currentProject.addUserStory(title, user, action, value);
+		if (currentProject != null) {
+			currentProject.addUserStory(title, user, action, value);
+		}
 	}
 
 	/**

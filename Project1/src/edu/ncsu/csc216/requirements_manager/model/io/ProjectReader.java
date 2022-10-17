@@ -31,7 +31,7 @@ public class ProjectReader {
 	 * @throws FileNotFoundException    if file is not found
 	 * @throws IllegalArgumentException if the file does not exist
 	 */
-	public static ArrayList<Project> readProjectFile(String filename){
+	public static ArrayList<Project> readProjectFile(String filename) {
 
 		ArrayList<Project> projects = new ArrayList<Project>();
 		Scanner fileReader;
@@ -55,16 +55,14 @@ public class ProjectReader {
 		n.useDelimiter("\\r?\\n?[#]");
 
 		while (n.hasNext()) {
-			try {	
+			try {
 				projects.add(processProject(n.next()));
-			}
-			catch (Exception e) {
+			} catch (Exception e) {
 				continue;
 			}
 		}
 
 		n.close();
-		
 
 		return projects;
 	}
@@ -88,8 +86,7 @@ public class ProjectReader {
 		while (n.hasNext()) {
 			try {
 				project.addUserStory(processUserStory(n.next()));
-			}
-			catch (Exception e) {
+			} catch (Exception e) {
 				continue;
 			}
 		}
@@ -142,20 +139,18 @@ public class ProjectReader {
 		user = n.next().trim();
 		action = n.next().trim();
 		value = n.next().trim();
-		
+
 		if (user == null || action == null || value == null) {
 			m.close();
 			n.close();
 			throw new IllegalArgumentException("Invalid file");
 		}
-		
-		
-		UserStory story = new UserStory(Integer.parseInt(id), state, title, user, action, value, priority, devId, reject);
 
+		UserStory story = new UserStory(Integer.parseInt(id), state, title, user, action, value, priority, devId,
+				reject);
 
 		m.close();
 		n.close();
-		
 
 		return story;
 	}

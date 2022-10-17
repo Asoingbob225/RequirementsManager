@@ -27,7 +27,7 @@ public class ProjectWriter {
 	 *                                  writing to and saving the file
 	 */
 	public static void writeProjectToFile(String filename, Project project) {
-		PrintStream fileWriter = null;
+		PrintStream fileWriter;
 		try {
 			fileWriter = new PrintStream(new File(filename));
 		} catch (FileNotFoundException e) {
@@ -41,7 +41,6 @@ public class ProjectWriter {
 		}
 
 		fileWriter.close();
-
 	}
 
 }
