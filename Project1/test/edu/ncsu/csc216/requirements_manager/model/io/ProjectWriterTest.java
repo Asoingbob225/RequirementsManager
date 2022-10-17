@@ -32,11 +32,13 @@ class ProjectWriterTest {
 		UserStory u1 = new UserStory(0, "Working", "title1", "student", "action", "value", "High", "jyu34", null);
 		UserStory u2 = new UserStory(1, "Submitted", "title2", "student", "action", "value", null, null, null);
 		UserStory u3 = new UserStory(2, "Backlog", "title3", "student", "action", "value", "Medium", null, null);
+		UserStory u4 = new UserStory(3, "Rejected", "title", "user", "action", "value", null, null, "Duplicate");
 		
 		Project p = new Project("New Project");
 		p.addUserStory(u1);
 		p.addUserStory(u2);
 		p.addUserStory(u3);
+		p.addUserStory(u4);
 		
 		ProjectWriter.writeProjectToFile("test-files/actual_project1.txt", p);
 		checkFiles("test-files/expected_project1.txt", "test-files/actual_project1.txt");

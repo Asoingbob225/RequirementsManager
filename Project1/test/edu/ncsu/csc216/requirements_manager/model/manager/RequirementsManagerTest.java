@@ -37,7 +37,7 @@ class RequirementsManagerTest {
 	/** String version of user story 5 **/
 	public final String u5 = "* 4,Submitted,Change Title,\n- student\n- change the title of my schedule\n- so I can have different schedules to consider";
 	/** String version of user story 6 **/
-	public final String u6 = "* 5,Rejected,Post to Piazza,Inappropriate,\n- student\n- post my schedule to Piazza for feedback\n- see which of my friends are interested in taking the same courses";
+	public final String u6 = "* 5,Rejected,Post to Piazza,,,Inappropriate,\n- student\n- post my schedule to Piazza for feedback\n- see which of my friends are interested in taking the same courses";
 
 	/**
 	 * Resets the singleton for use in other tests.
