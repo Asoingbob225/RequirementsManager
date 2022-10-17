@@ -64,6 +64,7 @@ public class ProjectReader {
 		}
 
 		n.close();
+		
 
 		return projects;
 	}
@@ -77,6 +78,10 @@ public class ProjectReader {
 	private static Project processProject(String line) {
 		Scanner n = new Scanner(line);
 		String projectName = n.nextLine().trim();
+		if (projectName.charAt(0) == '*') {
+			n.close();
+			throw new IllegalArgumentException("Invalid file");
+		}
 		Project project = new Project(projectName);
 		n.useDelimiter("\\r?\\n?[*]");
 
@@ -138,13 +143,19 @@ public class ProjectReader {
 		action = n.next().trim();
 		value = n.next().trim();
 		
+		if (user == null || action == null || value == null) {
+			m.close();
+			n.close();
+			throw new IllegalArgumentException("Invalid file");
+		}
+		
 		
 		UserStory story = new UserStory(Integer.parseInt(id), state, title, user, action, value, priority, devId, reject);
 
 
-		
 		m.close();
 		n.close();
+		
 
 		return story;
 	}
