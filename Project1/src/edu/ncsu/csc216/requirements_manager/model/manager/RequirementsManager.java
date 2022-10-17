@@ -191,7 +191,9 @@ public class RequirementsManager {
 	 * @param c  command to give to the found UserStory
 	 */
 	public void executeCommand(int id, Command c) {
-		currentProject.executeCommand(id, c);
+		if (currentProject != null) {
+			currentProject.executeCommand(id, c);
+		}
 	}
 
 	/**

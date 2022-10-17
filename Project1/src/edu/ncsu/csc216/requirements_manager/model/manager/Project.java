@@ -193,11 +193,9 @@ public class Project {
 	 */
 	public void executeCommand(int id, Command c) {
 		// add code here
-		if (userStories.size() != 0) {
-			for (int i = 0; i < userStories.size(); i++) {
-				if (id == userStories.get(i).getId()) {
-					userStories.get(i).update(c);
-				}
+		for (int i = 0; i < userStories.size(); i++) {
+			if (id == userStories.get(i).getId()) {
+				userStories.get(i).update(c);
 			}
 		}
 	}
