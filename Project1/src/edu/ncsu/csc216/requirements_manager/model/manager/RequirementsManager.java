@@ -166,6 +166,9 @@ public class RequirementsManager {
 	 *         UserStories
 	 */
 	public UserStory getUserStoryById(int id) {
+		if (currentProject == null) {
+			return null;
+		}
 		return currentProject.getUserStoryById(id);
 	}
 
