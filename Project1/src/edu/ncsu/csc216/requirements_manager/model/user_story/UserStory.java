@@ -58,8 +58,7 @@ public class UserStory {
 	private String developerId;
 	/** The user story’s rejection reason **/
 	private String rejectionReason;
-	
-	
+
 	/** Represents the current state of the UserStory **/
 	public UserStoryState currentState;
 	/** Final instance of the SubmittedState inner class **/
@@ -74,8 +73,6 @@ public class UserStory {
 	public final UserStoryState completedState = new CompletedState();
 	/** Final instance of the RejectedState inner class **/
 	public final UserStoryState rejectedState = new RejectedState();
-
-	
 
 	/**
 	 * Constructs a UserStory from the provided parameters. The storyId field is set
@@ -101,7 +98,7 @@ public class UserStory {
 
 		setState(SUBMITTED_NAME);
 		currentState = this.state;
-		
+
 		setPriority(null);
 		setDeveloperId(null);
 		setRejectionReason(null);
@@ -439,21 +436,9 @@ public class UserStory {
 	 *                                       the transition is not appropriate for
 	 *                                       the FSM
 	 */
-	public void update(Command command) {
-		// add code here
-		if (currentState == submittedState) {
-			submittedState.updateState(command);
-		} else if (currentState == backlogState) {
-			backlogState.updateState(command);
-		} else if (currentState == workingState) {
-			workingState.updateState(command);
-		} else if (currentState == verifyingState) {
-			verifyingState.updateState(command);
-		} else if (currentState == completedState) {
-			completedState.updateState(command);
-		} else if (currentState == rejectedState) {
-			rejectedState.updateState(command);
-		}
+	public void update(Command command) throws UnsupportedOperationException {
+		this.state.updateState(command);
+		this.state = currentState;
 	}
 
 	/**
