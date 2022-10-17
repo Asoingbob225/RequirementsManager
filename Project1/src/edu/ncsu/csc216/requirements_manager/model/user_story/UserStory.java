@@ -88,7 +88,7 @@ public class UserStory {
 	 */
 	public UserStory(String title, String user, String action, String value) {
 
-		storyId = counter;
+		setId(counter);
 		incrementCounter();
 
 		setTitle(title);
@@ -397,7 +397,7 @@ public class UserStory {
 	 * @param id value used to assign a storyId
 	 */
 	public static void setCounter(int id) {
-		UserStory.counter = id;
+		counter = id;
 	}
 
 	/**
