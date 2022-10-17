@@ -33,6 +33,7 @@ public class RequirementsManager {
 	 */
 	private RequirementsManager() {
 		projects = new ArrayList<Project>();
+		
 	}
 
 	/**
@@ -122,7 +123,7 @@ public class RequirementsManager {
 	public void loadProject(String projectname) {
 		// add code here
 		for (int i = 0; i < projects.size(); i++) {
-			if (projects.get(i).getProjectName() == projectname) {
+			if (projects.get(i).getProjectName().equals(projectname)) {
 				currentProject = projects.get(i);
 				currentProject.setUserStoryId();
 			}
