@@ -62,6 +62,10 @@ class RequirementsManagerTest {
 
 		RequirementsManager.getInstance().addUserStoryToProject("title1", "user1", "action1", "value1");
 		RequirementsManager.getInstance().addUserStoryToProject("title2", "user2", "action2", "value2");
+		RequirementsManager.getInstance().createNewProject("New Project1");
+		RequirementsManager.getInstance().addUserStoryToProject("title1", "user1", "action1", "value1");
+		RequirementsManager.getInstance().createNewProject("New Project2");
+		RequirementsManager.getInstance().addUserStoryToProject("title1", "user1", "action1", "value1");
 		RequirementsManager.getInstance().saveCurrentProjectToFile("test-files/RequirementsManagerTestActual.txt");
 
 		checkFiles("test-files/RequirementsManagerTestExpected.txt", "test-files/RequirementsManagerTestActual.txt");

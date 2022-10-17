@@ -66,7 +66,8 @@ public class RequirementsManager {
 		if (currentProject == null || currentProject.getUserStories().size() == 0) {
 			throw new IllegalArgumentException("Invalid project");
 		}
-
+		
+		
 		ProjectWriter.writeProjectToFile(filename, currentProject);
 	}
 
