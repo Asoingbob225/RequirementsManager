@@ -178,7 +178,9 @@ public class RequirementsManager {
 	 * @param id given id to match with the UserStory in the list
 	 */
 	public void deleteUserStoryById(int id) {
-		currentProject.deleteUserStoryById(id);
+		if (currentProject != null) {
+			currentProject.deleteUserStoryById(id);
+		}
 	}
 
 	/**
