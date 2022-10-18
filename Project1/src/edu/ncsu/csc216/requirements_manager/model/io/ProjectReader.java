@@ -59,12 +59,11 @@ public class ProjectReader {
 				projects.add(processProject(n.next()));
 			} catch (Exception e) {
 				n.close();
-				throw new IllegalArgumentException("Invalid file");
+				return projects;
 			}
 		}
 
 		n.close();
-		
 
 		return projects;
 	}
@@ -78,11 +77,6 @@ public class ProjectReader {
 	private static Project processProject(String line) {
 		Scanner n = new Scanner(line);
 		String projectName = n.nextLine().trim();
-		System.out.println(projectName);
-		if (projectName.charAt(0) == '*') {
-			n.close();
-			throw new IllegalArgumentException("Invalid file");
-		}
 		Project project = new Project(projectName);
 		n.useDelimiter("\\r?\\n?[*]");
 
@@ -91,7 +85,7 @@ public class ProjectReader {
 				project.addUserStory(processUserStory(n.next()));
 			} catch (Exception e) {
 				n.close();
-				throw new IllegalArgumentException("Invalid file");
+				// throw new IllegalArgumentException("Invalid file");
 			}
 		}
 
@@ -121,12 +115,6 @@ public class ProjectReader {
 		String reject = null;
 
 		id = m.next().trim();
-		System.out.println(id);
-//		if (!Character.isDigit(id.charAt(0))) {
-//			n.close();
-//			throw new IllegalArgumentException("Invalid file");			
-//		}
-		
 		state = m.next().trim();
 		title = m.next().trim();
 		if (m.hasNext()) {
@@ -149,8 +137,6 @@ public class ProjectReader {
 		user = n.next().trim();
 		action = n.next().trim();
 		value = n.next().trim();
-		
-		
 
 		if (user == null || action == null || value == null) {
 			m.close();
@@ -160,8 +146,6 @@ public class ProjectReader {
 
 		UserStory story = new UserStory(Integer.parseInt(id), state, title, user, action, value, priority, devId,
 				reject);
-		
-		System.out.println(story.toString());
 
 		m.close();
 		n.close();
