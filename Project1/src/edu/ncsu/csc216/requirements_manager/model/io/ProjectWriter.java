@@ -5,6 +5,7 @@ package edu.ncsu.csc216.requirements_manager.model.io;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.PrintStream;
 
 import edu.ncsu.csc216.requirements_manager.model.manager.Project;
@@ -29,7 +30,7 @@ public class ProjectWriter {
 	public static void writeProjectToFile(String filename, Project project) {
 		PrintStream fileWriter;
 		try {
-			fileWriter = new PrintStream(new File(filename));
+			fileWriter = new PrintStream(new FileOutputStream(filename, true));
 		} catch (FileNotFoundException e) {
 			throw new IllegalArgumentException("Unable to save file");
 		} 

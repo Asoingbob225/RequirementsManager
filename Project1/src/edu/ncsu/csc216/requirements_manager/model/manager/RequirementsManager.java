@@ -68,7 +68,8 @@ public class RequirementsManager {
 		}
 		
 		for (int i = 0; i < projects.size(); i++) {
-			ProjectWriter.writeProjectToFile(filename, projects.get(i));
+			currentProject = projects.get(i);
+			ProjectWriter.writeProjectToFile(filename, currentProject);
 		}
 		
 //	 System.out.println(projects);
