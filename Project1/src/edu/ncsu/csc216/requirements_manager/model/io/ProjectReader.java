@@ -64,9 +64,9 @@ public class ProjectReader {
 		}
 
 		n.close();
-		
-		//System.out.println(projects.get(0).getUserStories());
-		//System.out.println(projects.size());
+
+		// System.out.println(projects.get(0).getUserStories());
+		// System.out.println(projects.size());
 
 		return projects;
 	}
@@ -80,7 +80,7 @@ public class ProjectReader {
 	private static Project processProject(String line) {
 		Scanner n = new Scanner(line);
 		String projectName = n.nextLine().trim();
-		//System.out.println(projectName);
+		// System.out.println(projectName);
 		Project project = new Project(projectName);
 		n.useDelimiter("\\r?\\n?[*]");
 
@@ -131,29 +131,30 @@ public class ProjectReader {
 				priority = m.next().trim();
 				if (m.hasNext()) {
 					devId = m.next().trim();
+					if (m.hasNext()) {
+						m.close();
+						n.close();
+						throw new IllegalArgumentException();
+					}
 				}
 			}
 		}
 
 		n.useDelimiter("\\r?\\n?[-]");
 
-
-
 		user = n.next().trim();
 		action = n.next().trim();
 		value = n.next().trim();
-		
+
 		UserStory story = new UserStory(Integer.parseInt(id), state, title, user, action, value, priority, devId,
 				reject);
-		
+
 		if (n.hasNext()) {
-				m.close();
-				n.close();
-	
-				throw new IllegalArgumentException();
+			m.close();
+			n.close();
+			throw new IllegalArgumentException();
 		}
-		
-		
+
 		m.close();
 		n.close();
 
