@@ -138,11 +138,11 @@ public class ProjectReader {
 		action = n.next().trim();
 		value = n.next().trim();
 
-		if (user == null || action == null || value == null) {
-			m.close();
-			n.close();
-			throw new IllegalArgumentException("Invalid file");
-		}
+//		if (user == null || action == null || value == null) {
+//			m.close();
+//			n.close();
+//			throw new IllegalArgumentException("Invalid file");
+//		}
 
 		UserStory story = new UserStory(Integer.parseInt(id), state, title, user, action, value, priority, devId,
 				reject);
