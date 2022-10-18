@@ -64,6 +64,9 @@ public class ProjectReader {
 		}
 
 		n.close();
+		
+		//System.out.println(projects.get(0).getUserStories());
+		//System.out.println(projects.size());
 
 		return projects;
 	}
@@ -77,15 +80,16 @@ public class ProjectReader {
 	private static Project processProject(String line) {
 		Scanner n = new Scanner(line);
 		String projectName = n.nextLine().trim();
+		//System.out.println(projectName);
 		Project project = new Project(projectName);
 		n.useDelimiter("\\r?\\n?[*]");
 
 		while (n.hasNext()) {
+//			project.addUserStory(processUserStory(n.next()));
 			try {
 				project.addUserStory(processUserStory(n.next()));
 			} catch (Exception e) {
 				n.close();
-				// throw new IllegalArgumentException("Invalid file");
 			}
 		}
 
@@ -139,16 +143,19 @@ public class ProjectReader {
 		action = n.next().trim();
 		value = n.next().trim();
 		
+		UserStory story = new UserStory(Integer.parseInt(id), state, title, user, action, value, priority, devId,
+				reject);
+		
 		if (n.hasNext()) {
-			n.close();
+				m.close();
+				n.close();
+	
+				throw new IllegalArgumentException();
 		}
+		
 		
 		m.close();
 		n.close();
-
-
-		UserStory story = new UserStory(Integer.parseInt(id), state, title, user, action, value, priority, devId,
-				reject);
 
 		return story;
 	}

@@ -43,6 +43,9 @@ class ProjectReaderTest {
 		
 		ArrayList<Project> p = ProjectReader.readProjectFile("test-files/project5.txt");
 		assertEquals(0, p.size());
+		
+		ArrayList<Project> p1 = ProjectReader.readProjectFile("test-files/project13.txt");
+		assertEquals(0, p1.size());
 
 
 	}
