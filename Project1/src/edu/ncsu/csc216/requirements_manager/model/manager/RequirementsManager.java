@@ -214,6 +214,7 @@ public class RequirementsManager {
 	 * @param value  story's value information
 	 */
 	public void addUserStoryToProject(String title, String user, String action, String value) {
+			UserStory.setCounter(currentProject.getUserStories().size());
 			currentProject.addUserStory(title, user, action, value);
 	}
 

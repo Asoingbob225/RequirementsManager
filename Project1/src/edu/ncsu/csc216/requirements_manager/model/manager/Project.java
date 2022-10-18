@@ -95,7 +95,7 @@ public class Project {
 	 */
 	public int addUserStory(String title, String user, String action, String value) {
 		UserStory u = new UserStory(title, user, action, value);
-
+		
 		if (userStories.size() == 0) {
 			userStories.add(u);
 		}
