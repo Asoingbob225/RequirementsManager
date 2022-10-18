@@ -113,34 +113,38 @@ public class ProjectReader {
 		String priority = null;
 		String devId = null;
 		String reject = null;
-
-		id = m.next().trim();
-		state = m.next().trim();
-		title = m.next().trim();
-		if (m.hasNext()) {
-			if ("Rejected".equals(state)) {
-				reject = m.next().trim();
-			} else {
-				priority = m.next().trim();
-				if (m.hasNext()) {
-					devId = m.next().trim();
-				}
-			}
-		}
-
-		n.useDelimiter("\\r?\\n?[-]");
-
 		String user = "";
 		String action = "";
 		String value = "";
 
-		user = n.next().trim();
-		action = n.next().trim();
-		value = n.next().trim();
+		try {
+			id = m.next().trim();
+			state = m.next().trim();
+			title = m.next().trim();
+			if (m.hasNext()) {
+				if ("Rejected".equals(state)) {
+					reject = m.next().trim();
+				} else {
+					priority = m.next().trim();
+					if (m.hasNext()) {
+						devId = m.next().trim();
+					}
+				}
+			}
+
+			n.useDelimiter("\\r?\\n?[-]");
+
+			user = n.next().trim();
+			action = n.next().trim();
+			value = n.next().trim();
+
+		} catch (Exception e) {
+			n.close();
+			m.close();
+		}
 
 		m.close();
 		n.close();
-
 
 		UserStory story = new UserStory(Integer.parseInt(id), state, title, user, action, value, priority, devId,
 				reject);
