@@ -33,6 +33,8 @@ class ProjectWriterTest {
 		UserStory u2 = new UserStory(1, "Submitted", "title2", "student", "action", "value", null, null, null);
 		UserStory u3 = new UserStory(2, "Backlog", "title3", "student", "action", "value", "Medium", null, null);
 		UserStory u4 = new UserStory(3, "Rejected", "title", "user", "action", "value", null, null, "Duplicate");
+		UserStory u5 = new UserStory(0, "Rejected", "title", "user", "action", "value", null, null, "Duplicate");
+
 		
 		Project p = new Project("New Project");
 		p.addUserStory(u1);
@@ -40,8 +42,15 @@ class ProjectWriterTest {
 		p.addUserStory(u3);
 		p.addUserStory(u4);
 		
+		Project p1 = new Project("Project");
+		p1.addUserStory(u5);
+		
 		ProjectWriter.writeProjectToFile("test-files/actual_project1.txt", p);
+		ProjectWriter.writeProjectToFile("test-files/actual_rejected.txt", p1);
 		checkFiles("test-files/expected_project1.txt", "test-files/actual_project1.txt");
+		checkFiles("test-files/expected_rejected.txt", "test-files/actual_rejected.txt");
+
+		
 		
 		assertThrows(IllegalArgumentException.class, () -> ProjectWriter.writeProjectToFile("", p));
 	}
