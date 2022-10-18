@@ -58,11 +58,13 @@ public class ProjectReader {
 			try {
 				projects.add(processProject(n.next()));
 			} catch (Exception e) {
-				continue;
+				n.close();
+				throw new IllegalArgumentException("Invalid file");
 			}
 		}
 
 		n.close();
+		
 
 		return projects;
 	}
@@ -88,7 +90,8 @@ public class ProjectReader {
 			try {
 				project.addUserStory(processUserStory(n.next()));
 			} catch (Exception e) {
-				continue;
+				n.close();
+				throw new IllegalArgumentException("Invalid file");
 			}
 		}
 
@@ -119,10 +122,10 @@ public class ProjectReader {
 
 		id = m.next().trim();
 		System.out.println(id);
-		if (!Character.isDigit(id.charAt(0))) {
-			n.close();
-			throw new IllegalArgumentException("Invalid file");			
-		}
+//		if (!Character.isDigit(id.charAt(0))) {
+//			n.close();
+//			throw new IllegalArgumentException("Invalid file");			
+//		}
 		
 		state = m.next().trim();
 		title = m.next().trim();
