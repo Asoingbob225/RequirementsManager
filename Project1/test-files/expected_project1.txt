@@ -11,7 +11,7 @@
 - student
 - action
 - value
-* 3,Rejected,title,,,Duplicate,
+* 3,Rejected,title,Duplicate
 - user
 - action
 - value

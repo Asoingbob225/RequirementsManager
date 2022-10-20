@@ -417,7 +417,7 @@ public class UserStory {
 			string += developerId + ",";
 		}
 		if (rejectionReason != null) {
-			string += ",," + rejectionReason + ",";
+			string += rejectionReason;
 		}
 		string += "\n" + "- " + user + "\n" + "- " + action + "\n" + "- " + value;
 

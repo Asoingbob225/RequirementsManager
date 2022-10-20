@@ -68,7 +68,8 @@ public class RequirementsManager {
 		}
 		
 		for (int i = 0; i < projects.size(); i++) {
-			ProjectWriter.writeProjectToFile(filename, projects.get(i));
+			currentProject = projects.get(i);
+			ProjectWriter.writeProjectToFile(filename, currentProject);
 		}
 		
 //	 System.out.println(projects);
@@ -213,6 +214,7 @@ public class RequirementsManager {
 	 * @param value  story's value information
 	 */
 	public void addUserStoryToProject(String title, String user, String action, String value) {
+			UserStory.setCounter(currentProject.getUserStories().size());
 			currentProject.addUserStory(title, user, action, value);
 	}
 
